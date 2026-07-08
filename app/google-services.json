@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "504173127367",
+    "project_id": "splitflat-c2eb2",
+    "storage_bucket": "splitflat-c2eb2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504173127367:android:a839a600ce1f607fd300e2",
+        "android_client_info": {
+          "package_name": "com.example.splitflat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQRjD8YvpxkSVQz519VZruiGEsQWNpWU0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
