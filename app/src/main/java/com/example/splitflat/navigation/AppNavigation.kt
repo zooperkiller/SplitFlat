@@ -89,9 +89,27 @@ fun AppNavigation() {
         }
         
         composable(Screen.GroupDetail.route) { backStackEntry ->
-            // Placeholder for GroupDetailScreen
             val groupId = backStackEntry.arguments?.getString("groupId")
-            // We'll implement this properly in Phase 4
+            if (groupId != null) {
+                com.example.splitflat.ui.group.GroupDetailScreen(
+                    groupId = groupId,
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToAddExpense = { id ->
+                        navController.navigate("add_expense/$id")
+                    }
+                )
+            }
+        }
+        
+        composable("add_expense/{groupId}") { backStackEntry ->
+            val groupId = backStackEntry.arguments?.getString("groupId")
+            if (groupId != null) {
+                com.example.splitflat.ui.group.AddExpenseScreen(
+                    groupId = groupId,
+                    onExpenseAdded = { navController.popBackStack() },
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
         }
     }
 }
