@@ -24,6 +24,7 @@ fun CreateGroupScreen(
     var inviteEmail by remember { mutableStateOf("") }
     var membersList by remember { mutableStateOf(listOf<String>()) } // Storing emails temporarily for UI
     var simplifyDebts by remember { mutableStateOf(false) }
+    var enableMultiCurrency by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     
@@ -119,6 +120,27 @@ fun CreateGroupScreen(
                 }
             }
 
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Checkbox for Multi-Currency
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    checked = enableMultiCurrency,
+                    onCheckedChange = { enableMultiCurrency = it }
+                )
+                Column {
+                    Text("Enable Multi-Currency", fontWeight = FontWeight.SemiBold)
+                    Text(
+                        "Allow expenses in foreign currencies using real-time rates.", 
+                        fontSize = 12.sp, 
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    )
+                }
+            }
+
             Spacer(modifier = Modifier.weight(1f))
 
             if (errorMessage != null) {
@@ -142,7 +164,7 @@ fun CreateGroupScreen(
 
                     if (membersList.isEmpty()) {
                         // Create group with just the creator
-                        val newGroup = Group(groupId, groupName, currentUserUid, groupUidList, simplifyDebts)
+                        val newGroup = Group(groupId, groupName, currentUserUid, groupUidList, simplifyDebts, enableMultiCurrency)
                         db.collection("groups").document(groupId).set(newGroup)
                             .addOnSuccessListener {
                                 isLoading = false
@@ -162,7 +184,7 @@ fun CreateGroupScreen(
                                     document.getString("uid")?.let { groupUidList.add(it) }
                                 }
                                 
-                                val newGroup = Group(groupId, groupName, currentUserUid, groupUidList, simplifyDebts)
+                                val newGroup = Group(groupId, groupName, currentUserUid, groupUidList, simplifyDebts, enableMultiCurrency)
                                 db.collection("groups").document(groupId).set(newGroup)
                                     .addOnSuccessListener {
                                         isLoading = false

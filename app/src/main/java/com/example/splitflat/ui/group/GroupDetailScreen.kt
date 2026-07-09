@@ -379,13 +379,21 @@ fun ExpenseCard(
                 Text(text = expense.title, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Text(text = "Paid by $paidByName", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
             }
-            Text(
-                text = "₹${String.format("%.2f", expense.amount)}",
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(end = 8.dp)
-            )
+            Column(modifier = Modifier.padding(end = 8.dp), horizontalAlignment = Alignment.End) {
+                Text(
+                    text = "₹${String.format(Locale.US, "%.2f", expense.amount)}",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                if (expense.targetCurrency != null && expense.targetAmount != null) {
+                    Text(
+                        text = "${String.format(Locale.US, "%.2f", expense.targetAmount)} ${expense.targetCurrency}",
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    )
+                }
+            }
             
             Box {
                 IconButton(onClick = { expanded = true }) {

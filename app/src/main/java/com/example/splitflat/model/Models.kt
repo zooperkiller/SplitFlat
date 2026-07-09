@@ -12,6 +12,7 @@ data class Group(
     val createdBy: String = "",
     val members: List<String> = emptyList(), // Store UIDs of members
     val simplifyDebts: Boolean = false, // If true, group uses the Smart Debt Simplification algorithm
+    val enableMultiCurrency: Boolean = false, // If true, allows selecting a foreign currency
     val timestamp: Long = 0L
 )
 
@@ -25,5 +26,7 @@ data class Expense(
     val category: String = "Other", // e.g. Food, Travel, Utilities
     val splitAmong: List<String> = emptyList(), // Keep for legacy EQUAL splits if needed
     val splits: Map<String, Double> = emptyMap(), // Maps User UID to exact amount owed
-    val timestamp: Long = 0L
+    val timestamp: Long = 0L,
+    val targetCurrency: String? = null, // e.g. USD
+    val targetAmount: Double? = null    // The calculated equivalent amount in the target currency
 )

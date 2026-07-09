@@ -20,8 +20,11 @@ import androidx.compose.ui.unit.sp
 import com.example.splitflat.model.Expense
 import com.example.splitflat.model.Group
 import com.example.splitflat.model.User
+import com.example.splitflat.network.FrankfurterApi
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
+import java.util.Locale
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +53,14 @@ fun AddExpenseScreen(
     
     var group by remember { mutableStateOf<Group?>(null) }
     var members by remember { mutableStateOf<List<User>>(emptyList()) }
+    val scope = rememberCoroutineScope()
     
+    // Multi-Currency State
+    val currencies = listOf("INR", "USD", "EUR", "GBP", "AUD", "CAD")
+    var targetCurrency by remember { mutableStateOf("INR") }
+    var exchangeRates by remember { mutableStateOf<Map<String, Double>?>(null) }
+    var currencyDropdownExpanded by remember { mutableStateOf(false) }
+
     LaunchedEffect(groupId) {
         db.collection("groups").document(groupId).get().addOnSuccessListener { snapshot ->
             val fetchedGroup = snapshot.toObject(Group::class.java)
@@ -58,6 +68,18 @@ fun AddExpenseScreen(
             if (fetchedGroup != null && fetchedGroup.members.isNotEmpty()) {
                 db.collection("users").whereIn("uid", fetchedGroup.members).get().addOnSuccessListener { usersSnapshot ->
                     members = usersSnapshot.documents.mapNotNull { it.toObject(User::class.java) }
+                }
+                
+                if (fetchedGroup.enableMultiCurrency) {
+                    scope.launch {
+                        try {
+                            val api = FrankfurterApi.create()
+                            val response = api.getLatestRates("INR", "USD,EUR,GBP,AUD,CAD")
+                            exchangeRates = response.rates
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
                 }
             }
         }
@@ -75,6 +97,10 @@ fun AddExpenseScreen(
                     }
                     selectedCategory = expense.category
                     splitType = expense.splitType
+                    
+                    if (expense.targetCurrency != null) {
+                        targetCurrency = expense.targetCurrency
+                    }
                     
                     if (splitType == "EXACT") {
                         val exactSplits = mutableMapOf<String, String>()
@@ -140,6 +166,64 @@ fun AddExpenseScreen(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
+            
+            if (group?.enableMultiCurrency == true) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    ExposedDropdownMenuBox(
+                        expanded = currencyDropdownExpanded,
+                        onExpandedChange = { currencyDropdownExpanded = it },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        OutlinedTextField(
+                            value = targetCurrency,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text("Foreign Currency") },
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = currencyDropdownExpanded)
+                            },
+                            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                            modifier = Modifier.menuAnchor(),
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                        ExposedDropdownMenu(
+                            expanded = currencyDropdownExpanded,
+                            onDismissRequest = { currencyDropdownExpanded = false }
+                        ) {
+                            currencies.forEach { selectionOption ->
+                                DropdownMenuItem(
+                                    text = { Text(selectionOption) },
+                                    onClick = {
+                                        targetCurrency = selectionOption
+                                        currencyDropdownExpanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    if (targetCurrency != "INR") {
+                        val amount = amountText.toDoubleOrNull() ?: 0.0
+                        val rate = exchangeRates?.get(targetCurrency) ?: 0.0
+                        val equivalent = amount * rate
+                        
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text("Equivalent", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                            Text(
+                                text = "${String.format(Locale.US, "%.2f", equivalent)} $targetCurrency", 
+                                fontWeight = FontWeight.Bold, 
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
+                }
+            }
             
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -281,6 +365,10 @@ fun AddExpenseScreen(
                     isLoading = true
                     errorMessage = null
                     
+                    val rate = if (targetCurrency != "INR") exchangeRates?.get(targetCurrency) else null
+                    val tAmount = if (rate != null) amount * rate else null
+                    val tCurr = if (rate != null) targetCurrency else null
+
                     val docId = expenseId ?: UUID.randomUUID().toString()
                     val newExpense = Expense(
                         id = docId,
@@ -292,7 +380,9 @@ fun AddExpenseScreen(
                         splitType = splitType,
                         splitAmong = group!!.members, // Keep for legacy fields
                         splits = calculatedSplits,
-                        timestamp = if (expenseId != null) System.currentTimeMillis() else System.currentTimeMillis()
+                        timestamp = if (expenseId != null) System.currentTimeMillis() else System.currentTimeMillis(),
+                        targetCurrency = tCurr,
+                        targetAmount = tAmount
                     )
                     
                     db.collection("expenses").document(docId).set(newExpense)
