@@ -1,6 +1,7 @@
 package com.example.splitflat.ui.group
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,6 +12,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -136,6 +140,14 @@ fun GroupDetailScreen(
             ) {
                 Text("Balances", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 
+                // Analytics Section (Donut Chart)
+                if (expenses.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    val categoryTotals = expenses.groupBy { it.category }.mapValues { entry -> entry.value.sumOf { it.amount } }
+                    DonutChart(categoryTotals = categoryTotals)
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -244,6 +256,73 @@ fun ExpenseCard(expense: Expense, members: Map<String, User>) {
                 fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.primary
             )
+        }
+    }
+}
+
+@Composable
+fun DonutChart(categoryTotals: Map<String, Double>) {
+    val totalAmount = categoryTotals.values.sum()
+    if (totalAmount <= 0.0) return
+
+    // Define colors for categories
+    val colors = listOf(
+        Color(0xFFE76F51), Color(0xFFF4A261), Color(0xFFE9C46A),
+        Color(0xFF2A9D8F), Color(0xFF264653), Color(0xFF8AB17D)
+    )
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.size(150.dp)) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                var currentAngle = -90f
+                var colorIndex = 0
+
+                categoryTotals.forEach { (_, amount) ->
+                    val sweepAngle = (amount / totalAmount).toFloat() * 360f
+                    drawArc(
+                        color = colors[colorIndex % colors.size],
+                        startAngle = currentAngle,
+                        sweepAngle = sweepAngle,
+                        useCenter = false,
+                        style = Stroke(width = 40f, cap = StrokeCap.Butt)
+                    )
+                    currentAngle += sweepAngle
+                    colorIndex++
+                }
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text("Total", fontSize = 12.sp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f))
+                Text("$${String.format(Locale.US, "%.0f", totalAmount)}", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            }
+        }
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        // Legend
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            var colorIndex = 0
+            categoryTotals.forEach { (category, amount) ->
+                val percentage = (amount / totalAmount) * 100
+                if (percentage > 5) { // Only show significant slices in legend
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Canvas(modifier = Modifier.size(8.dp)) {
+                                drawCircle(color = colors[colorIndex % colors.size])
+                            }
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(category.split(" ").lastOrNull() ?: category, fontSize = 10.sp)
+                        }
+                        Text("${percentage.toInt()}%", fontWeight = FontWeight.Bold, fontSize = 10.sp)
+                    }
+                }
+                colorIndex++
+            }
         }
     }
 }

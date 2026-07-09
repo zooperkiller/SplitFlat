@@ -1,6 +1,7 @@
 package com.example.splitflat.ui.group
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -36,7 +37,10 @@ fun AddExpenseScreen(
     
     var title by remember { mutableStateOf("") }
     var amountText by remember { mutableStateOf("") }
+    var selectedCategory by remember { mutableStateOf("🍔 Food") }
     var splitType by remember { mutableStateOf("EQUAL") } // EQUAL, EXACT, PERCENTAGE
+    
+    val categories = listOf("🍔 Food", "🚗 Transport", "🏠 Housing", "🛒 Groceries", "🎉 Fun", "📝 Other")
     
     // Split state maps User ID to the input value (exact amount or percentage)
     var splitValues by remember { mutableStateOf(mapOf<String, String>()) }
@@ -104,6 +108,26 @@ fun AddExpenseScreen(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
+            
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Category Selection
+            Text("Category", fontWeight = FontWeight.SemiBold, modifier = Modifier.align(Alignment.Start))
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                categories.forEach { category ->
+                    FilterChip(
+                        selected = selectedCategory == category,
+                        onClick = { selectedCategory = category },
+                        label = { Text(category) }
+                    )
+                }
+            }
             
             Spacer(modifier = Modifier.height(24.dp))
             
@@ -232,6 +256,7 @@ fun AddExpenseScreen(
                         title = title.trim(),
                         amount = amount,
                         paidBy = currentUserUid,
+                        category = selectedCategory,
                         splitType = splitType,
                         splitAmong = group!!.members, // Keep for legacy fields
                         splits = calculatedSplits,
