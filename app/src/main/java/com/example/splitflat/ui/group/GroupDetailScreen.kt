@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -33,7 +35,8 @@ import kotlin.math.roundToInt
 fun GroupDetailScreen(
     groupId: String,
     onNavigateBack: () -> Unit,
-    onNavigateToAddExpense: (String) -> Unit
+    onNavigateToAddExpense: (String) -> Unit,
+    onEditExpense: (String, String) -> Unit
 ) {
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
@@ -45,6 +48,12 @@ fun GroupDetailScreen(
     var balances by remember { mutableStateOf<Map<String, Double>>(emptyMap()) }
     var suggestedTransactions by remember { mutableStateOf<List<Transaction>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
+    
+    // Invite Dialog State
+    var showInviteDialog by remember { mutableStateOf(false) }
+    var inviteEmail by remember { mutableStateOf("") }
+    var inviteError by remember { mutableStateOf<String?>(null) }
+    var isInviting by remember { mutableStateOf(false) }
 
     LaunchedEffect(groupId) {
         // Fetch group details
@@ -108,6 +117,11 @@ fun GroupDetailScreen(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { showInviteDialog = true }) {
+                        Icon(Icons.Filled.PersonAdd, contentDescription = "Invite Member")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -183,7 +197,7 @@ fun GroupDetailScreen(
                                         modifier = Modifier.weight(1f)
                                     )
                                     Text(
-                                        "$${String.format(Locale.US, "%.2f", tx.amount)}",
+                                        "₹${String.format(Locale.US, "%.2f", tx.amount)}",
                                         fontWeight = FontWeight.Bold,
                                         color = MaterialTheme.colorScheme.primary
                                     )
@@ -200,7 +214,7 @@ fun GroupDetailScreen(
                         Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
                             Text(userName, modifier = Modifier.weight(1f))
                             Text(
-                                text = if (isOwed) "+$${String.format(Locale.US, "%.2f", balance)}" else "-$${String.format(Locale.US, "%.2f", -balance)}",
+                                text = if (isOwed) "+₹${String.format(Locale.US, "%.2f", balance)}" else "-₹${String.format(Locale.US, "%.2f", -balance)}",
                                 color = color,
                                 fontWeight = FontWeight.Bold
                             )
@@ -222,18 +236,133 @@ fun GroupDetailScreen(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(expenses) { expense ->
-                            ExpenseCard(expense, members.associateBy { it.uid })
+                            ExpenseCard(
+                                expense = expense, 
+                                members = members.associateBy { it.uid },
+                                onEdit = { onEditExpense(groupId, expense.id) },
+                                onDelete = {
+                                    db.collection("expenses").document(expense.id).delete()
+                                }
+                            )
                         }
                     }
                 }
             }
         }
     }
+    
+    // Invite Dialog
+    if (showInviteDialog) {
+        AlertDialog(
+            onDismissRequest = { 
+                if (!isInviting) {
+                    showInviteDialog = false 
+                    inviteEmail = ""
+                    inviteError = null
+                }
+            },
+            title = { Text("Invite Member") },
+            text = {
+                Column {
+                    Text("Enter the email address of the user you want to invite.")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = inviteEmail,
+                        onValueChange = { inviteEmail = it },
+                        label = { Text("Email Address") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    if (inviteError != null) {
+                        Text(
+                            text = inviteError!!,
+                            color = MaterialTheme.colorScheme.error,
+                            fontSize = 12.sp,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        val email = inviteEmail.trim()
+                        if (email.isBlank()) {
+                            inviteError = "Email cannot be empty."
+                            return@Button
+                        }
+                        isInviting = true
+                        inviteError = null
+                        
+                        db.collection("users").whereEqualTo("email", email).get()
+                            .addOnSuccessListener { snapshot ->
+                                if (snapshot.isEmpty) {
+                                    inviteError = "User not found!"
+                                    isInviting = false
+                                } else {
+                                    val user = snapshot.documents[0].toObject(User::class.java)
+                                    if (user != null) {
+                                        val currentMembers = group?.members ?: emptyList()
+                                        if (currentMembers.contains(user.uid)) {
+                                            inviteError = "User is already in this group!"
+                                            isInviting = false
+                                        } else {
+                                            // Update Firestore
+                                            val updatedMembers = currentMembers + user.uid
+                                            db.collection("groups").document(groupId)
+                                                .update("members", updatedMembers)
+                                                .addOnSuccessListener {
+                                                    isInviting = false
+                                                    showInviteDialog = false
+                                                    inviteEmail = ""
+                                                }
+                                                .addOnFailureListener {
+                                                    inviteError = "Failed to add member."
+                                                    isInviting = false
+                                                }
+                                        }
+                                    }
+                                }
+                            }
+                            .addOnFailureListener {
+                                inviteError = "Error searching for user."
+                                isInviting = false
+                            }
+                    },
+                    enabled = !isInviting
+                ) {
+                    if (isInviting) {
+                        CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
+                    } else {
+                        Text("Invite")
+                    }
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { 
+                        showInviteDialog = false 
+                        inviteEmail = ""
+                        inviteError = null
+                    },
+                    enabled = !isInviting
+                ) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
 }
 
 @Composable
-fun ExpenseCard(expense: Expense, members: Map<String, User>) {
+fun ExpenseCard(
+    expense: Expense, 
+    members: Map<String, User>,
+    onEdit: () -> Unit,
+    onDelete: () -> Unit
+) {
     val paidByName = members[expense.paidBy]?.name ?: "Someone"
+    var expanded by remember { mutableStateOf(false) }
     
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -246,16 +375,42 @@ fun ExpenseCard(expense: Expense, members: Map<String, User>) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(text = expense.title, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Text(text = "Paid by $paidByName", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
             }
             Text(
-                text = "$${String.format("%.2f", expense.amount)}",
+                text = "₹${String.format("%.2f", expense.amount)}",
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(end = 8.dp)
             )
+            
+            Box {
+                IconButton(onClick = { expanded = true }) {
+                    Icon(Icons.Filled.MoreVert, contentDescription = "More Options")
+                }
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Edit") },
+                        onClick = { 
+                            expanded = false
+                            onEdit()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Delete", color = MaterialTheme.colorScheme.error) },
+                        onClick = { 
+                            expanded = false
+                            onDelete()
+                        }
+                    )
+                }
+            }
         }
     }
 }
@@ -295,7 +450,7 @@ fun DonutChart(categoryTotals: Map<String, Double>) {
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("Total", fontSize = 12.sp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f))
-                Text("$${String.format(Locale.US, "%.0f", totalAmount)}", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text("₹${String.format(Locale.US, "%.0f", totalAmount)}", fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
         }
         

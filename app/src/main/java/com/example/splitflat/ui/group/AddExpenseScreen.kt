@@ -28,7 +28,7 @@ import java.util.UUID
 @Composable
 fun AddExpenseScreen(
     groupId: String,
-    onExpenseAdded: () -> Unit,
+    expenseId: String? = null,
     onNavigateBack: () -> Unit
 ) {
     val auth = FirebaseAuth.getInstance()
@@ -61,12 +61,44 @@ fun AddExpenseScreen(
                 }
             }
         }
+        
+        // If in Edit Mode, fetch expense
+        if (expenseId != null) {
+            db.collection("expenses").document(expenseId).get().addOnSuccessListener { snapshot ->
+                val expense = snapshot.toObject(Expense::class.java)
+                if (expense != null) {
+                    title = expense.title
+                    amountText = if (expense.amount % 1.0 == 0.0) {
+                        expense.amount.toInt().toString()
+                    } else {
+                        expense.amount.toString()
+                    }
+                    selectedCategory = expense.category
+                    splitType = expense.splitType
+                    
+                    if (splitType == "EXACT") {
+                        val exactSplits = mutableMapOf<String, String>()
+                        expense.splits.forEach { (uid, amount) ->
+                            exactSplits[uid] = if (amount % 1.0 == 0.0) amount.toInt().toString() else amount.toString()
+                        }
+                        splitValues = exactSplits
+                    } else if (splitType == "PERCENTAGE") {
+                        val pctSplits = mutableMapOf<String, String>()
+                        expense.splits.forEach { (uid, amount) ->
+                            val pct = (amount / expense.amount) * 100
+                            pctSplits[uid] = if (pct % 1.0 == 0.0) pct.toInt().toString() else pct.toString()
+                        }
+                        splitValues = pctSplits
+                    }
+                }
+            }
+        }
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Add Expense") },
+                title = { Text(if (expenseId != null) "Edit Expense" else "Add Expense") },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -102,7 +134,7 @@ fun AddExpenseScreen(
             OutlinedTextField(
                 value = amountText,
                 onValueChange = { amountText = it },
-                label = { Text("Amount ($)") },
+                label = { Text("Amount (₹)") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 shape = RoundedCornerShape(16.dp),
                 singleLine = true,
@@ -178,7 +210,7 @@ fun AddExpenseScreen(
                                 onValueChange = { newValue -> 
                                     splitValues = splitValues.toMutableMap().apply { put(user.uid, newValue) }
                                 },
-                                label = { Text(if (splitType == "EXACT") "$" else "%") },
+                                label = { Text(if (splitType == "EXACT") "₹" else "%") },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                                 singleLine = true,
                                 modifier = Modifier.width(100.dp)
@@ -229,7 +261,7 @@ fun AddExpenseScreen(
                         }
                         // Validate exact sums
                         if (kotlin.math.abs(sum - amount) > 0.01) {
-                            errorMessage = "Exact amounts must sum up to the total ($$amount)"
+                            errorMessage = "Exact amounts must sum up to the total (₹$amount)"
                             return@Button
                         }
                     } else if (splitType == "PERCENTAGE") {
@@ -249,9 +281,9 @@ fun AddExpenseScreen(
                     isLoading = true
                     errorMessage = null
                     
-                    val expenseId = UUID.randomUUID().toString()
+                    val docId = expenseId ?: UUID.randomUUID().toString()
                     val newExpense = Expense(
-                        id = expenseId,
+                        id = docId,
                         groupId = groupId,
                         title = title.trim(),
                         amount = amount,
@@ -260,17 +292,17 @@ fun AddExpenseScreen(
                         splitType = splitType,
                         splitAmong = group!!.members, // Keep for legacy fields
                         splits = calculatedSplits,
-                        timestamp = System.currentTimeMillis()
+                        timestamp = if (expenseId != null) System.currentTimeMillis() else System.currentTimeMillis()
                     )
                     
-                    db.collection("expenses").document(expenseId).set(newExpense)
+                    db.collection("expenses").document(docId).set(newExpense)
                         .addOnSuccessListener {
                             isLoading = false
-                            onExpenseAdded()
+                            onNavigateBack()
                         }
                         .addOnFailureListener {
                             isLoading = false
-                            errorMessage = "Failed to add expense"
+                            errorMessage = "Failed to save expense"
                         }
                 },
                 modifier = Modifier.fillMaxWidth().height(56.dp),
