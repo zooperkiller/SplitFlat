@@ -1,11 +1,11 @@
 package com.example.splitflat.ui.group
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -17,8 +17,11 @@ import androidx.compose.ui.unit.sp
 import com.example.splitflat.model.Expense
 import com.example.splitflat.model.Group
 import com.example.splitflat.model.User
+import com.example.splitflat.utils.DebtSimplifier
+import com.example.splitflat.utils.Transaction
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Locale
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,22 +36,22 @@ fun GroupDetailScreen(
     val currentUserUid = auth.currentUser?.uid ?: return
 
     var group by remember { mutableStateOf<Group?>(null) }
-    var members by remember { mutableStateOf<Map<String, User>>(emptyMap()) }
+    var members by remember { mutableStateOf<List<User>>(emptyList()) }
     var expenses by remember { mutableStateOf<List<Expense>>(emptyList()) }
-    var balances by remember { mutableStateOf<Map<String, Double>>(emptyMap()) } // Positive means they are owed, Negative means they owe
+    var balances by remember { mutableStateOf<Map<String, Double>>(emptyMap()) }
+    var suggestedTransactions by remember { mutableStateOf<List<Transaction>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(groupId) {
         // Fetch group details
-        db.collection("groups").document(groupId).get().addOnSuccessListener { snapshot ->
-            val fetchedGroup = snapshot.toObject(Group::class.java)
+        db.collection("groups").document(groupId).addSnapshotListener { snapshot, _ ->
+            val fetchedGroup = snapshot?.toObject(Group::class.java)
             group = fetchedGroup
             
             if (fetchedGroup != null) {
                 // Fetch members
                 db.collection("users").whereIn("uid", fetchedGroup.members).get().addOnSuccessListener { usersSnapshot ->
-                    val usersMap = usersSnapshot.documents.mapNotNull { it.toObject(User::class.java) }.associateBy { it.uid }
-                    members = usersMap
+                    members = usersSnapshot.documents.mapNotNull { it.toObject(User::class.java) }
                 }
             }
         }
@@ -69,16 +72,13 @@ fun GroupDetailScreen(
                 // Calculate balances
                 val userBalances = mutableMapOf<String, Double>()
                 fetchedExpenses.forEach { expense ->
-                    // The person who paid gets positive balance
                     userBalances[expense.paidBy] = (userBalances[expense.paidBy] ?: 0.0) + expense.amount
                     
                     if (expense.splits.isNotEmpty()) {
-                        // New format: splits map contains the exact amount each person owes
                         expense.splits.forEach { (uid, amountOwed) ->
                             userBalances[uid] = (userBalances[uid] ?: 0.0) - amountOwed
                         }
                     } else if (expense.splitAmong.isNotEmpty()) {
-                        // Legacy format support for EQUAL
                         val amountPerPerson = expense.amount / expense.splitAmong.size
                         expense.splitAmong.forEach { uid ->
                             userBalances[uid] = (userBalances[uid] ?: 0.0) - amountPerPerson
@@ -86,6 +86,13 @@ fun GroupDetailScreen(
                     }
                 }
                 balances = userBalances
+                
+                // If the group has simplification enabled, calculate it
+                if (group?.simplifyDebts == true) {
+                    suggestedTransactions = DebtSimplifier.simplifyDebts(userBalances)
+                } else {
+                    suggestedTransactions = emptyList()
+                }
                 isLoading = false
             }
     }
@@ -127,30 +134,69 @@ fun GroupDetailScreen(
                     .padding(paddingValues)
                     .padding(16.dp)
             ) {
-                // Balances Summary
-                Card(
+                Text("Balances", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                
+                Row(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text("Balances", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Spacer(modifier = Modifier.height(8.dp))
+                    Text("Smart Debt Simplification", fontSize = 14.sp)
+                    Switch(
+                        checked = group?.simplifyDebts == true,
+                        onCheckedChange = { isChecked ->
+                            db.collection("groups").document(groupId)
+                                .update("simplifyDebts", isChecked)
+                        }
+                    )
+                }
+                
+                Spacer(modifier = Modifier.height(8.dp))
+
+                if (group?.simplifyDebts == true) {
+                    if (suggestedTransactions.isEmpty()) {
+                        Text("All settled up!", color = MaterialTheme.colorScheme.primary)
+                    } else {
+                        suggestedTransactions.forEach { tx ->
+                            val fromName = members.find { it.uid == tx.fromUid }?.name ?: "Unknown"
+                            val toName = members.find { it.uid == tx.toUid }?.name ?: "Unknown"
+                            Card(
+                                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
+                            ) {
+                                Row(modifier = Modifier.padding(16.dp)) {
+                                    Text(
+                                        "$fromName pays $toName",
+                                        fontWeight = FontWeight.Medium,
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                    Text(
+                                        "$${String.format(Locale.US, "%.2f", tx.amount)}",
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    balances.forEach { (uid, balance) ->
+                        val userName = members.find { it.uid == uid }?.name ?: "Unknown"
+                        val isOwed = balance > 0
+                        val color = if (isOwed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
                         
-                        val myBalance = balances[currentUserUid] ?: 0.0
-                        val formattedBalance = ((myBalance * 100.0).roundToInt() / 100.0)
-                        
-                        if (formattedBalance > 0.01) {
-                            Text("You are owed: $$formattedBalance", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Medium)
-                        } else if (formattedBalance < -0.01) {
-                            Text("You owe: $${-formattedBalance}", color = MaterialTheme.colorScheme.error, fontWeight = FontWeight.Medium)
-                        } else {
-                            Text("You are settled up!", color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f))
+                        Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                            Text(userName, modifier = Modifier.weight(1f))
+                            Text(
+                                text = if (isOwed) "+$${String.format(Locale.US, "%.2f", balance)}" else "-$${String.format(Locale.US, "%.2f", -balance)}",
+                                color = color,
+                                fontWeight = FontWeight.Bold
+                            )
                         }
                     }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 Text("Expenses", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -164,7 +210,7 @@ fun GroupDetailScreen(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(expenses) { expense ->
-                            ExpenseCard(expense, members)
+                            ExpenseCard(expense, members.associateBy { it.uid })
                         }
                     }
                 }
