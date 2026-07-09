@@ -10,7 +10,9 @@ data class Group(
     val id: String = "",
     val name: String = "",
     val createdBy: String = "",
-    val members: List<String> = emptyList() // List of User UIDs
+    val members: List<String> = emptyList(), // Store UIDs of members
+    val simplifyDebts: Boolean = false, // If true, group uses the Smart Debt Simplification algorithm
+    val timestamp: Long = 0L
 )
 
 data class Expense(
