@@ -18,7 +18,9 @@ data class Expense(
     val groupId: String = "",
     val title: String = "",
     val amount: Double = 0.0,
-    val paidBy: String = "", // UID of user who paid
-    val splitAmong: List<String> = emptyList(), // UIDs of users who owe
+    val paidBy: String = "",
+    val splitType: String = "EQUAL", // "EQUAL", "EXACT", "PERCENTAGE"
+    val splitAmong: List<String> = emptyList(), // Keep for legacy EQUAL splits if needed
+    val splits: Map<String, Double> = emptyMap(), // Maps User UID to exact amount owed
     val timestamp: Long = 0L
 )

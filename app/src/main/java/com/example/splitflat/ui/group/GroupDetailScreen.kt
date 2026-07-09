@@ -66,17 +66,23 @@ fun GroupDetailScreen(
                     .sortedByDescending { it.timestamp }
                 expenses = fetchedExpenses
                 
-                // Calculate balances (Split Equally)
+                // Calculate balances
                 val userBalances = mutableMapOf<String, Double>()
                 fetchedExpenses.forEach { expense ->
-                    val amountPerPerson = expense.amount / expense.splitAmong.size
-                    
                     // The person who paid gets positive balance
                     userBalances[expense.paidBy] = (userBalances[expense.paidBy] ?: 0.0) + expense.amount
                     
-                    // Everyone involved gets negative balance
-                    expense.splitAmong.forEach { uid ->
-                        userBalances[uid] = (userBalances[uid] ?: 0.0) - amountPerPerson
+                    if (expense.splits.isNotEmpty()) {
+                        // New format: splits map contains the exact amount each person owes
+                        expense.splits.forEach { (uid, amountOwed) ->
+                            userBalances[uid] = (userBalances[uid] ?: 0.0) - amountOwed
+                        }
+                    } else if (expense.splitAmong.isNotEmpty()) {
+                        // Legacy format support for EQUAL
+                        val amountPerPerson = expense.amount / expense.splitAmong.size
+                        expense.splitAmong.forEach { uid ->
+                            userBalances[uid] = (userBalances[uid] ?: 0.0) - amountPerPerson
+                        }
                     }
                 }
                 balances = userBalances
