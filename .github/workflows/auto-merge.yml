@@ -1,0 +1,27 @@
+name: Auto Merge Develop to Master
+
+on:
+  schedule:
+    # 3 AM IST is 21:30 UTC
+    - cron: '30 21 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  merge-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge develop into master-WSE
+        run: |
+          git checkout master-WSE
+          git merge origin/develop --no-edit
+          git push origin master-WSE
