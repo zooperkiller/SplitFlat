@@ -1,5 +1,6 @@
 package com.example.splitflat.ui.group
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -98,8 +99,16 @@ fun AddExpenseScreen(
             
             Spacer(modifier = Modifier.weight(1f))
 
-            if (errorMessage != null) {
-                Text(text = errorMessage!!, color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(bottom = 8.dp))
+            AnimatedVisibility(
+                visible = errorMessage != null,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
+                Text(
+                    text = errorMessage ?: "", 
+                    color = MaterialTheme.colorScheme.error, 
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
             }
 
             Button(

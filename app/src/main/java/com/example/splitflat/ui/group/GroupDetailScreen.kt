@@ -1,5 +1,7 @@
 package com.example.splitflat.ui.group
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -148,13 +150,25 @@ fun GroupDetailScreen(
                 Text("Expenses", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 Spacer(modifier = Modifier.height(8.dp))
 
-                if (expenses.isEmpty()) {
-                    Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                AnimatedVisibility(
+                    visible = expenses.isEmpty(),
+                    enter = fadeIn(animationSpec = tween(500)),
+                    exit = fadeOut(animationSpec = tween(500)),
+                    modifier = Modifier.weight(1f).fillMaxWidth()
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
                         Text("No expenses yet.", color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
                     }
-                } else {
+                }
+                
+                AnimatedVisibility(
+                    visible = expenses.isNotEmpty(),
+                    enter = slideInVertically(initialOffsetY = { 50 }) + fadeIn(),
+                    exit = slideOutVertically() + fadeOut(),
+                    modifier = Modifier.weight(1f)
+                ) {
                     LazyColumn(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(expenses) { expense ->
