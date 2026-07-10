@@ -40,6 +40,11 @@ fun AddExpenseScreen(
     var selectedCategory by remember { mutableStateOf("🍔 Food") }
     var splitType by remember { mutableStateOf("EQUAL") } // EQUAL, EXACT, PERCENTAGE
     
+    // Custom Payer & Selective Splitting State
+    var selectedPayerUid by remember { mutableStateOf(currentUserUid) }
+    var includedMembers by remember { mutableStateOf(setOf<String>()) }
+    var dropdownExpanded by remember { mutableStateOf(false) }
+    
     val categories = listOf("🍔 Food", "🚗 Transport", "🏠 Housing", "🛒 Groceries", "🎉 Fun", "📝 Other")
     
     // Split state maps User ID to the input value (exact amount or percentage)
@@ -58,6 +63,10 @@ fun AddExpenseScreen(
             if (fetchedGroup != null && fetchedGroup.members.isNotEmpty()) {
                 db.collection("users").whereIn("uid", fetchedGroup.members).get().addOnSuccessListener { usersSnapshot ->
                     members = usersSnapshot.documents.mapNotNull { it.toObject(User::class.java) }
+                    // Default includedMembers to all members if we are creating a new expense
+                    if (expenseId == null) {
+                        includedMembers = members.map { it.uid }.toSet()
+                    }
                 }
             }
         }
@@ -75,6 +84,13 @@ fun AddExpenseScreen(
                     }
                     selectedCategory = expense.category
                     splitType = expense.splitType
+                    selectedPayerUid = expense.paidBy
+                    
+                    includedMembers = if (expense.splits.isNotEmpty()) {
+                        expense.splits.keys.toSet()
+                    } else {
+                        expense.splitAmong.toSet()
+                    }
                     
                     if (splitType == "EXACT") {
                         val exactSplits = mutableMapOf<String, String>()
@@ -143,6 +159,44 @@ fun AddExpenseScreen(
             
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Paid By Selection Dropdown
+            Text("Paid By", fontWeight = FontWeight.SemiBold, modifier = Modifier.align(Alignment.Start))
+            Spacer(modifier = Modifier.height(8.dp))
+            val selectedPayer = members.find { it.uid == selectedPayerUid }
+            ExposedDropdownMenuBox(
+                expanded = dropdownExpanded,
+                onExpandedChange = { dropdownExpanded = !dropdownExpanded },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                OutlinedTextField(
+                    value = if (selectedPayerUid == currentUserUid) "You (${selectedPayer?.name ?: ""})" else selectedPayer?.name ?: "",
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = dropdownExpanded) },
+                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.menuAnchor().fillMaxWidth()
+                )
+                ExposedDropdownMenu(
+                    expanded = dropdownExpanded,
+                    onDismissRequest = { dropdownExpanded = false }
+                ) {
+                    members.forEach { user ->
+                        DropdownMenuItem(
+                            text = { 
+                                Text(if (user.uid == currentUserUid) "You (${user.name})" else user.name) 
+                            },
+                            onClick = {
+                                selectedPayerUid = user.uid
+                                dropdownExpanded = false
+                            }
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             // Category Selection
             Text("Category", fontWeight = FontWeight.SemiBold, modifier = Modifier.align(Alignment.Start))
             Spacer(modifier = Modifier.height(8.dp))
@@ -187,33 +241,68 @@ fun AddExpenseScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Dynamic Split UI
-            AnimatedVisibility(visible = splitType == "EQUAL") {
-                Text(
-                    text = "Paid by you and split equally among all ${members.size} members.",
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
+            // Split Between Checkbox List
+            Text("Split Between", fontWeight = FontWeight.SemiBold, modifier = Modifier.align(Alignment.Start))
+            Spacer(modifier = Modifier.height(8.dp))
             
-            AnimatedVisibility(visible = splitType != "EQUAL") {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    members.forEach { user ->
-                        Row(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(user.name, modifier = Modifier.weight(1f), fontWeight = FontWeight.Medium)
-                            OutlinedTextField(
-                                value = splitValues[user.uid] ?: "",
-                                onValueChange = { newValue -> 
-                                    splitValues = splitValues.toMutableMap().apply { put(user.uid, newValue) }
-                                },
-                                label = { Text(if (splitType == "EXACT") "₹" else "%") },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                                singleLine = true,
-                                modifier = Modifier.width(100.dp)
+            val totalAmount = amountText.toDoubleOrNull() ?: 0.0
+            
+            Column(modifier = Modifier.fillMaxWidth()) {
+                members.forEach { user ->
+                    val isIncluded = includedMembers.contains(user.uid)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Checkbox(
+                            checked = isIncluded,
+                            onCheckedChange = { checked ->
+                                includedMembers = if (checked) {
+                                    includedMembers + user.uid
+                                } else {
+                                    includedMembers - user.uid
+                                }
+                            }
+                        )
+                        
+                        Text(
+                            text = if (user.uid == currentUserUid) "You (${user.name})" else user.name,
+                            modifier = Modifier.weight(1f),
+                            fontWeight = FontWeight.Medium,
+                            color = if (isIncluded) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
+                        )
+                        
+                        if (isIncluded) {
+                            when (splitType) {
+                                "EQUAL" -> {
+                                    val count = includedMembers.size
+                                    val share = if (count > 0) totalAmount / count else 0.0
+                                    Text(
+                                        text = String.format("₹%.2f", share),
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                }
+                                "EXACT", "PERCENTAGE" -> {
+                                    OutlinedTextField(
+                                        value = splitValues[user.uid] ?: "",
+                                        onValueChange = { newValue -> 
+                                            splitValues = splitValues.toMutableMap().apply { put(user.uid, newValue) }
+                                        },
+                                        label = { Text(if (splitType == "EXACT") "₹" else "%") },
+                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                                        singleLine = true,
+                                        modifier = Modifier.width(100.dp)
+                                    )
+                                }
+                            }
+                        } else {
+                            Text(
+                                text = "Excluded",
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
+                                style = MaterialTheme.typography.bodyMedium
                             )
                         }
                     }
@@ -246,17 +335,21 @@ fun AddExpenseScreen(
                         errorMessage = "Group data not fully loaded"
                         return@Button
                     }
+                    if (includedMembers.isEmpty()) {
+                        errorMessage = "Please select at least one member to split with"
+                        return@Button
+                    }
                     
                     val calculatedSplits = mutableMapOf<String, Double>()
                     
                     if (splitType == "EQUAL") {
-                        val amountPerPerson = amount / members.size
-                        members.forEach { calculatedSplits[it.uid] = amountPerPerson }
+                        val amountPerPerson = amount / includedMembers.size
+                        includedMembers.forEach { uid -> calculatedSplits[uid] = amountPerPerson }
                     } else if (splitType == "EXACT") {
                         var sum = 0.0
-                        members.forEach { user ->
-                            val v = splitValues[user.uid]?.toDoubleOrNull() ?: 0.0
-                            calculatedSplits[user.uid] = v
+                        includedMembers.forEach { uid ->
+                            val v = splitValues[uid]?.toDoubleOrNull() ?: 0.0
+                            calculatedSplits[uid] = v
                             sum += v
                         }
                         // Validate exact sums
@@ -266,9 +359,9 @@ fun AddExpenseScreen(
                         }
                     } else if (splitType == "PERCENTAGE") {
                         var sumPct = 0.0
-                        members.forEach { user ->
-                            val pct = splitValues[user.uid]?.toDoubleOrNull() ?: 0.0
-                            calculatedSplits[user.uid] = (pct / 100.0) * amount
+                        includedMembers.forEach { uid ->
+                            val pct = splitValues[uid]?.toDoubleOrNull() ?: 0.0
+                            calculatedSplits[uid] = (pct / 100.0) * amount
                             sumPct += pct
                         }
                         // Validate percentages sum to 100
@@ -287,10 +380,10 @@ fun AddExpenseScreen(
                         groupId = groupId,
                         title = title.trim(),
                         amount = amount,
-                        paidBy = currentUserUid,
+                        paidBy = selectedPayerUid,
                         category = selectedCategory,
                         splitType = splitType,
-                        splitAmong = group!!.members, // Keep for legacy fields
+                        splitAmong = includedMembers.toList(),
                         splits = calculatedSplits,
                         timestamp = if (expenseId != null) System.currentTimeMillis() else System.currentTimeMillis()
                     )

@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.*
@@ -48,6 +49,58 @@ fun GroupDetailScreen(
     var balances by remember { mutableStateOf<Map<String, Double>>(emptyMap()) }
     var suggestedTransactions by remember { mutableStateOf<List<Transaction>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
+    
+    // Filtering state
+    var selectedTimeFilter by remember { mutableStateOf("ALL") }
+    var timeDropdownExpanded by remember { mutableStateOf(false) }
+    var selectedPayerFilter by remember { mutableStateOf("ALL") }
+    var payerDropdownExpanded by remember { mutableStateOf(false) }
+    
+    val filteredExpenses = remember(expenses, selectedTimeFilter, selectedPayerFilter) {
+        expenses.filter { expense ->
+            val passesTime = when (selectedTimeFilter) {
+                "7_DAYS" -> {
+                    val sevenDaysAgo = System.currentTimeMillis() - (7L * 24 * 60 * 60 * 1000)
+                    expense.timestamp >= sevenDaysAgo
+                }
+                "30_DAYS" -> {
+                    val thirtyDaysAgo = System.currentTimeMillis() - (30L * 24 * 60 * 60 * 1000)
+                    expense.timestamp >= thirtyDaysAgo
+                }
+                "90_DAYS" -> {
+                    val ninetyDaysAgo = System.currentTimeMillis() - (90L * 24 * 60 * 60 * 1000)
+                    expense.timestamp >= ninetyDaysAgo
+                }
+                "THIS_MONTH" -> {
+                    val calendar = java.util.Calendar.getInstance()
+                    val currentYear = calendar.get(java.util.Calendar.YEAR)
+                    val currentMonth = calendar.get(java.util.Calendar.MONTH)
+                    
+                    val expenseCalendar = java.util.Calendar.getInstance().apply { timeInMillis = expense.timestamp }
+                    expenseCalendar.get(java.util.Calendar.YEAR) == currentYear &&
+                            expenseCalendar.get(java.util.Calendar.MONTH) == currentMonth
+                }
+                "LAST_MONTH" -> {
+                    val calendar = java.util.Calendar.getInstance()
+                    calendar.add(java.util.Calendar.MONTH, -1)
+                    val lastYear = calendar.get(java.util.Calendar.YEAR)
+                    val lastMonth = calendar.get(java.util.Calendar.MONTH)
+                    
+                    val expenseCalendar = java.util.Calendar.getInstance().apply { timeInMillis = expense.timestamp }
+                    expenseCalendar.get(java.util.Calendar.YEAR) == lastYear &&
+                            expenseCalendar.get(java.util.Calendar.MONTH) == lastMonth
+                }
+                else -> true
+            }
+            
+            val passesPayer = when (selectedPayerFilter) {
+                "ALL" -> true
+                else -> expense.paidBy == selectedPayerFilter
+            }
+            
+            passesTime && passesPayer
+        }
+    }
     
     // Invite Dialog State
     var showInviteDialog by remember { mutableStateOf(false) }
@@ -215,38 +268,106 @@ fun GroupDetailScreen(
                             Text(userName, modifier = Modifier.weight(1f))
                             Text(
                                 text = if (isOwed) "+₹${String.format(Locale.US, "%.2f", balance)}" else "-₹${String.format(Locale.US, "%.2f", -balance)}",
-                                color = color,
+                        color = color,
                                 fontWeight = FontWeight.Bold
                             )
                         }
                     }
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
+                               Spacer(modifier = Modifier.height(24.dp))
                 Text("Expenses", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 Spacer(modifier = Modifier.height(8.dp))
+
+                if (expenses.isNotEmpty()) {
+                    // Filter Row UI
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        // Time Range Filter Dropdown
+                        Box {
+                            FilterChip(
+                                selected = selectedTimeFilter != "ALL",
+                                onClick = { timeDropdownExpanded = true },
+                                label = {
+                                    Text(
+                                        when (selectedTimeFilter) {
+                                            "7_DAYS" -> "Time: Last 7 Days"
+                                            "30_DAYS" -> "Time: Last 1 Month"
+                                            "90_DAYS" -> "Time: Last 3 Months"
+                                            "THIS_MONTH" -> "Time: This Month"
+                                            "LAST_MONTH" -> "Time: Last Month"
+                                            else -> "Time: All"
+                                        }
+                                    )
+                                },
+                                trailingIcon = { Icon(Icons.Default.ArrowDropDown, contentDescription = null) }
+                            )
+                            DropdownMenu(
+                                expanded = timeDropdownExpanded,
+                                onDismissRequest = { timeDropdownExpanded = false }
+                            ) {
+                                DropdownMenuItem(text = { Text("All Time") }, onClick = { selectedTimeFilter = "ALL"; timeDropdownExpanded = false })
+                                DropdownMenuItem(text = { Text("Last 7 Days") }, onClick = { selectedTimeFilter = "7_DAYS"; timeDropdownExpanded = false })
+                                DropdownMenuItem(text = { Text("Last 30 Days (1 Month)") }, onClick = { selectedTimeFilter = "30_DAYS"; timeDropdownExpanded = false })
+                                DropdownMenuItem(text = { Text("Last 90 Days (3 Months)") }, onClick = { selectedTimeFilter = "90_DAYS"; timeDropdownExpanded = false })
+                                DropdownMenuItem(text = { Text("This Month") }, onClick = { selectedTimeFilter = "THIS_MONTH"; timeDropdownExpanded = false })
+                                DropdownMenuItem(text = { Text("Last Month") }, onClick = { selectedTimeFilter = "LAST_MONTH"; timeDropdownExpanded = false })
+                            }
+                        }
+
+                        // Payer Filter Dropdown
+                        Box {
+                            val selectedPayerName = if (selectedPayerFilter == "ALL") "All" else members.find { it.uid == selectedPayerFilter }?.name ?: "Unknown"
+                            FilterChip(
+                                selected = selectedPayerFilter != "ALL",
+                                onClick = { payerDropdownExpanded = true },
+                                label = { Text("Paid By: $selectedPayerName") },
+                                trailingIcon = { Icon(Icons.Default.ArrowDropDown, contentDescription = null) }
+                            )
+                            DropdownMenu(
+                                expanded = payerDropdownExpanded,
+                                onDismissRequest = { payerDropdownExpanded = false }
+                            ) {
+                                DropdownMenuItem(text = { Text("All Members") }, onClick = { selectedPayerFilter = "ALL"; payerDropdownExpanded = false })
+                                members.forEach { member ->
+                                    DropdownMenuItem(
+                                        text = { Text(member.name) },
+                                        onClick = { selectedPayerFilter = member.uid; payerDropdownExpanded = false }
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
 
                 if (expenses.isEmpty()) {
                     Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
                         Text("No expenses yet.", color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
                     }
                 } else {
-                    LazyColumn(
-                        modifier = Modifier.weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(expenses) { expense ->
-                            ExpenseCard(
-                                expense = expense, 
-                                members = members.associateBy { it.uid },
-                                onEdit = { onEditExpense(groupId, expense.id) },
-                                onDelete = {
-                                    db.collection("expenses").document(expense.id).delete()
-                                }
-                            )
+                    if (filteredExpenses.isEmpty()) {
+                        Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                            Text("No matching expenses found.", color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
+                        }
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(filteredExpenses) { expense ->
+                                ExpenseCard(
+                                    expense = expense, 
+                                    members = members.associateBy { it.uid },
+                                    onEdit = { onEditExpense(groupId, expense.id) },
+                                    onDelete = {
+                                        db.collection("expenses").document(expense.id).delete()
+                                    }
+                                )
+                            }
                         }
                     }
-                }
+                }     }
             }
         }
     }
