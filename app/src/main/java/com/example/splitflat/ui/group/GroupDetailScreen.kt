@@ -2,6 +2,8 @@ package com.example.splitflat.ui.group
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,12 +12,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PersonAdd
+import androidx.compose.material.icons.filled.QrCode
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -24,10 +29,13 @@ import com.example.splitflat.model.Expense
 import com.example.splitflat.model.Group
 import com.example.splitflat.model.User
 import com.example.splitflat.utils.DebtSimplifier
+import com.example.splitflat.utils.QrCodeGenerator
 import com.example.splitflat.utils.Transaction
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
 import java.util.Locale
+import java.util.UUID
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,6 +49,7 @@ fun GroupDetailScreen(
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
     val currentUserUid = auth.currentUser?.uid ?: return
+    val coroutineScope = rememberCoroutineScope()
 
     var group by remember { mutableStateOf<Group?>(null) }
     var members by remember { mutableStateOf<List<User>>(emptyList()) }
@@ -48,12 +57,71 @@ fun GroupDetailScreen(
     var balances by remember { mutableStateOf<Map<String, Double>>(emptyMap()) }
     var suggestedTransactions by remember { mutableStateOf<List<Transaction>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
+    var isRefreshing by remember { mutableStateOf(false) }
     
     // Invite Dialog State
     var showInviteDialog by remember { mutableStateOf(false) }
     var inviteEmail by remember { mutableStateOf("") }
     var inviteError by remember { mutableStateOf<String?>(null) }
     var isInviting by remember { mutableStateOf(false) }
+
+    // QR Code Dialog State
+    var showQrDialog by remember { mutableStateOf(false) }
+
+    // Settle Up Dialog State
+    var showSettleUpDialog by remember { mutableStateOf(false) }
+    var selectedDebtToSettle by remember { mutableStateOf<Transaction?>(null) }
+    var settlementAmountText by remember { mutableStateOf("") }
+    var isSettling by remember { mutableStateOf(false) }
+    var settleError by remember { mutableStateOf<String?>(null) }
+
+    fun loadData() {
+        db.collection("groups").document(groupId).get().addOnSuccessListener { snapshot ->
+            val fetchedGroup = snapshot?.toObject(Group::class.java)
+            group = fetchedGroup
+            
+            if (fetchedGroup != null) {
+                db.collection("users").whereIn("uid", fetchedGroup.members).get().addOnSuccessListener { usersSnapshot ->
+                    members = usersSnapshot.documents.mapNotNull { it.toObject(User::class.java) }
+                }
+            }
+        }
+
+        db.collection("expenses")
+            .whereEqualTo("groupId", groupId)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                if (snapshot != null) {
+                    val fetchedExpenses = snapshot.documents.mapNotNull { it.toObject(Expense::class.java) }
+                        .sortedByDescending { it.timestamp }
+                    expenses = fetchedExpenses
+                    
+                    // Calculate balances
+                    val userBalances = mutableMapOf<String, Double>()
+                    fetchedExpenses.forEach { expense ->
+                        userBalances[expense.paidBy] = (userBalances[expense.paidBy] ?: 0.0) + expense.amount
+                        
+                        if (expense.splits.isNotEmpty()) {
+                            expense.splits.forEach { (uid, amountOwed) ->
+                                userBalances[uid] = (userBalances[uid] ?: 0.0) - amountOwed
+                            }
+                        } else if (expense.splitAmong.isNotEmpty()) {
+                            val amountPerPerson = expense.amount / expense.splitAmong.size
+                            expense.splitAmong.forEach { uid ->
+                                userBalances[uid] = (userBalances[uid] ?: 0.0) - amountPerPerson
+                            }
+                        }
+                    }
+                    balances = userBalances
+                    
+                    if (group?.simplifyDebts == true) {
+                        suggestedTransactions = DebtSimplifier.simplifyDebts(userBalances)
+                    } else {
+                        suggestedTransactions = emptyList()
+                    }
+                }
+            }
+    }
 
     LaunchedEffect(groupId) {
         // Fetch group details
@@ -110,18 +178,35 @@ fun GroupDetailScreen(
             }
     }
 
+    val displayTitle = remember(group, members) {
+        if (group?.isOneOnOne == true) {
+            val otherMember = group?.members?.firstOrNull { it != currentUserUid }
+            members.find { it.uid == otherMember }?.name ?: "Friend Ledger"
+        } else {
+            group?.name ?: "Group Details"
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(group?.name ?: "Group Details") },
+                title = { Text(displayTitle) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
-                    IconButton(onClick = { showInviteDialog = true }) {
-                        Icon(Icons.Filled.PersonAdd, contentDescription = "Invite Member")
+                    // Show QR Code display
+                    IconButton(onClick = { showQrDialog = true }) {
+                        Icon(Icons.Filled.QrCode, contentDescription = "Group QR Code")
+                    }
+                    
+                    // Show Invite button only if it's a regular group (not a 1-on-1 friend ledger)
+                    if (group?.isOneOnOne == false) {
+                        IconButton(onClick = { showInviteDialog = true }) {
+                            Icon(Icons.Filled.PersonAdd, contentDescription = "Invite Member")
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -146,104 +231,132 @@ fun GroupDetailScreen(
                 CircularProgressIndicator()
             }
         } else {
-            Column(
+            PullToRefreshBox(
+                isRefreshing = isRefreshing,
+                onRefresh = {
+                    coroutineScope.launch {
+                        isRefreshing = true
+                        loadData()
+                        kotlinx.coroutines.delay(500)
+                        isRefreshing = false
+                    }
+                },
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(16.dp)
             ) {
-                Text("Balances", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                
-                // Analytics Section (Donut Chart)
-                if (expenses.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    val categoryTotals = expenses.groupBy { it.category }.mapValues { entry -> entry.value.sumOf { it.amount } }
-                    DonutChart(categoryTotals = categoryTotals)
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
                 ) {
-                    Text("Smart Debt Simplification", fontSize = 14.sp)
-                    Switch(
-                        checked = group?.simplifyDebts == true,
-                        onCheckedChange = { isChecked ->
-                            db.collection("groups").document(groupId)
-                                .update("simplifyDebts", isChecked)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text("Balances", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        TextButton(onClick = {
+                            showSettleUpDialog = true
+                            selectedDebtToSettle = null
+                            settlementAmountText = ""
+                            settleError = null
+                        }) {
+                            Text("Settle Up")
                         }
-                    )
-                }
-                
-                Spacer(modifier = Modifier.height(8.dp))
+                    }
+                    
+                    // Analytics Section (Donut Chart)
+                    if (expenses.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        val categoryTotals = expenses.groupBy { it.category }.mapValues { entry -> entry.value.sumOf { it.amount } }
+                        DonutChart(categoryTotals = categoryTotals)
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
 
-                if (group?.simplifyDebts == true) {
-                    if (suggestedTransactions.isEmpty()) {
-                        Text("All settled up!", color = MaterialTheme.colorScheme.primary)
-                    } else {
-                        suggestedTransactions.forEach { tx ->
-                            val fromName = members.find { it.uid == tx.fromUid }?.name ?: "Unknown"
-                            val toName = members.find { it.uid == tx.toUid }?.name ?: "Unknown"
-                            Card(
-                                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
-                            ) {
-                                Row(modifier = Modifier.padding(16.dp)) {
-                                    Text(
-                                        "$fromName pays $toName",
-                                        fontWeight = FontWeight.Medium,
-                                        modifier = Modifier.weight(1f)
-                                    )
-                                    Text(
-                                        "₹${String.format(Locale.US, "%.2f", tx.amount)}",
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.primary
-                                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text("Smart Debt Simplification", fontSize = 14.sp)
+                        Switch(
+                            checked = group?.simplifyDebts == true,
+                            onCheckedChange = { isChecked ->
+                                db.collection("groups").document(groupId)
+                                    .update("simplifyDebts", isChecked)
+                            }
+                        )
+                    }
+                    
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    if (group?.simplifyDebts == true) {
+                        if (suggestedTransactions.isEmpty()) {
+                            Text("All settled up!", color = MaterialTheme.colorScheme.primary)
+                        } else {
+                            suggestedTransactions.forEach { tx ->
+                                val fromName = members.find { it.uid == tx.fromUid }?.name ?: "Unknown"
+                                val toName = members.find { it.uid == tx.toUid }?.name ?: "Unknown"
+                                Card(
+                                    modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
+                                ) {
+                                    Row(modifier = Modifier.padding(16.dp)) {
+                                        Text(
+                                            "$fromName pays $toName",
+                                            fontWeight = FontWeight.Medium,
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                        Text(
+                                            "₹${String.format(Locale.US, "%.2f", tx.amount)}",
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                    }
                                 }
                             }
                         }
-                    }
-                } else {
-                    balances.forEach { (uid, balance) ->
-                        val userName = members.find { it.uid == uid }?.name ?: "Unknown"
-                        val isOwed = balance > 0
-                        val color = if (isOwed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
-                        
-                        Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
-                            Text(userName, modifier = Modifier.weight(1f))
-                            Text(
-                                text = if (isOwed) "+₹${String.format(Locale.US, "%.2f", balance)}" else "-₹${String.format(Locale.US, "%.2f", -balance)}",
-                                color = color,
-                                fontWeight = FontWeight.Bold
-                            )
+                    } else {
+                        balances.forEach { (uid, balance) ->
+                            val userName = members.find { it.uid == uid }?.name ?: "Unknown"
+                            val isOwed = balance > 0
+                            val color = if (isOwed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+                            
+                            Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                                Text(userName, modifier = Modifier.weight(1f))
+                                Text(
+                                    text = if (isOwed) "+₹${String.format(Locale.US, "%.2f", balance)}" else "-₹${String.format(Locale.US, "%.2f", -balance)}",
+                                    color = color,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
                         }
                     }
-                }
 
-                Spacer(modifier = Modifier.height(24.dp))
-                Text("Expenses", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Text("Expenses", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                if (expenses.isEmpty()) {
-                    Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Text("No expenses yet.", color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
-                    }
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(expenses) { expense ->
-                            ExpenseCard(
-                                expense = expense, 
-                                members = members.associateBy { it.uid },
-                                onEdit = { onEditExpense(groupId, expense.id) },
-                                onDelete = {
-                                    db.collection("expenses").document(expense.id).delete()
-                                }
-                            )
+                    if (expenses.isEmpty()) {
+                        Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                            Text("No expenses yet.", color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
+                        }
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(expenses) { expense ->
+                                ExpenseCard(
+                                    expense = expense, 
+                                    members = members.associateBy { it.uid },
+                                    onEdit = { onEditExpense(groupId, expense.id) },
+                                    onDelete = {
+                                        db.collection("expenses").document(expense.id).delete()
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -251,6 +364,180 @@ fun GroupDetailScreen(
         }
     }
     
+    // QR Code dialog
+    if (showQrDialog) {
+        val qrBitmap = remember(groupId) { QrCodeGenerator.generateQrCode(groupId) }
+        AlertDialog(
+            onDismissRequest = { showQrDialog = false },
+            title = { Text(if (group?.isOneOnOne == true) "Friend Ledger QR" else "Group QR Code") },
+            text = {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = if (group?.isOneOnOne == true) "Let your friend scan this QR code to join this direct ledger." else "Let other members scan this QR code using the SplitFlat scanner to join this group instantly.",
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    if (qrBitmap != null) {
+                        Image(
+                            bitmap = qrBitmap.asImageBitmap(),
+                            contentDescription = "QR Code",
+                            modifier = Modifier.size(200.dp)
+                        )
+                    } else {
+                        Text("Failed to generate QR code", color = MaterialTheme.colorScheme.error)
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Group ID: $groupId",
+                        fontSize = 10.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    )
+                }
+            },
+            confirmButton = {
+                Button(onClick = { showQrDialog = false }) {
+                    Text("Close")
+                }
+            }
+        )
+    }
+
+    // Settle Up Dialog
+    if (showSettleUpDialog) {
+        val activeDebts = remember(balances) { DebtSimplifier.simplifyDebts(balances) }
+        AlertDialog(
+            onDismissRequest = { if (!isSettling) showSettleUpDialog = false },
+            title = { Text("Settle Up Balances") },
+            text = {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text("Select a balance to settle up:")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    
+                    if (activeDebts.isEmpty()) {
+                        Text("All settled up! No outstanding balances to settle.", color = MaterialTheme.colorScheme.primary)
+                    } else {
+                        LazyColumn(modifier = Modifier.heightIn(max = 200.dp)) {
+                            items(activeDebts) { tx ->
+                                val fromName = members.find { it.uid == tx.fromUid }?.name ?: "Unknown"
+                                val toName = members.find { it.uid == tx.toUid }?.name ?: "Unknown"
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 4.dp)
+                                        .clickable {
+                                            selectedDebtToSettle = tx
+                                            settlementAmountText = String.format(Locale.US, "%.2f", tx.amount)
+                                            settleError = null
+                                        },
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(12.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text("$fromName owes $toName", fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
+                                        Text("₹${String.format(Locale.US, "%.2f", tx.amount)}", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    selectedDebtToSettle?.let { tx ->
+                        val fromName = members.find { it.uid == tx.fromUid }?.name ?: "Unknown"
+                        val toName = members.find { it.uid == tx.toUid }?.name ?: "Unknown"
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Divider()
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text("Record Payment:", fontWeight = FontWeight.Bold)
+                        Text("$fromName paid $toName", modifier = Modifier.padding(vertical = 4.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = settlementAmountText,
+                            onValueChange = { settlementAmountText = it },
+                            label = { Text("Amount paid (₹)") },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        settleError?.let { err ->
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(err, color = MaterialTheme.colorScheme.error, fontSize = 12.sp)
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        val tx = selectedDebtToSettle
+                        if (tx == null) {
+                            settleError = "Please select a balance to settle"
+                            return@Button
+                        }
+                        val amt = settlementAmountText.toDoubleOrNull()
+                        if (amt == null || amt <= 0) {
+                            settleError = "Please enter a valid amount"
+                            return@Button
+                        }
+                        
+                        isSettling = true
+                        settleError = null
+
+                        val fromName = members.find { it.uid == tx.fromUid }?.name ?: "Someone"
+                        val toName = members.find { it.uid == tx.toUid }?.name ?: "Someone"
+                        
+                        val settlementId = UUID.randomUUID().toString()
+                        val newExpense = Expense(
+                            id = settlementId,
+                            groupId = groupId,
+                            title = "Settle Up: $fromName -> $toName",
+                            amount = amt,
+                            paidBy = tx.fromUid, // Debtor paid
+                            splitType = "EXACT",
+                            category = "📝 Other",
+                            splits = mapOf(tx.toUid to amt), // Recipient owes the payer back, offsetting original debt
+                            timestamp = System.currentTimeMillis()
+                        )
+
+                        db.collection("expenses").document(settlementId).set(newExpense)
+                            .addOnSuccessListener {
+                                isSettling = false
+                                showSettleUpDialog = false
+                                selectedDebtToSettle = null
+                            }
+                            .addOnFailureListener {
+                                isSettling = false
+                                settleError = "Failed to record payment"
+                            }
+                    },
+                    enabled = !isSettling && selectedDebtToSettle != null
+                ) {
+                    if (isSettling) {
+                        CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
+                    } else {
+                        Text("Record Payment")
+                    }
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { 
+                        showSettleUpDialog = false
+                        selectedDebtToSettle = null
+                    },
+                    enabled = !isSettling
+                ) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
     // Invite Dialog
     if (showInviteDialog) {
         AlertDialog(
