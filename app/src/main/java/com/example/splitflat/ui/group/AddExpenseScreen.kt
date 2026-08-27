@@ -290,9 +290,8 @@ fun AddExpenseScreen(
                         paidBy = currentUserUid,
                         category = selectedCategory,
                         splitType = splitType,
-                        splitAmong = group!!.members, // Keep for legacy fields
                         splits = calculatedSplits,
-                        timestamp = if (expenseId != null) System.currentTimeMillis() else System.currentTimeMillis()
+                        timestamp = System.currentTimeMillis()
                     )
                     
                     db.collection("expenses").document(docId).set(newExpense)

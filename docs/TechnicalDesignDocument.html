@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SplitFlat — Technical Design Document (TDD)</title>
+<style>
+  :root {
+    --primary: #2A9D8F;
+    --primary-dark: #1f7a6f;
+    --charcoal: #264653;
+    --bg: #F8F9FA;
+    --surface: #FFFFFF;
+    --text: #1D3557;
+    --text-muted: #457B9D;
+    --accent-red: #E63946;
+    --border: #e3e8ee;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 15.5px;
+  }
+
+  /* ===== Header ===== */
+  header {
+    background: linear-gradient(135deg, var(--charcoal) 0%, #1d3557 60%, var(--primary-dark) 100%);
+    color: #fff;
+    padding: 48px 32px 40px;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0 0 6px;
+    font-size: 2.4rem;
+    letter-spacing: 0.5px;
+  }
+  header .subtitle {
+    font-size: 1.05rem;
+    opacity: 0.85;
+    margin-bottom: 22px;
+  }
+  .meta-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .meta-chip {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+  }
+
+  /* ===== Layout ===== */
+  .container {
+    display: flex;
+    max-width: 1280px;
+    margin: 0 auto;
+    gap: 32px;
+    padding: 32px 24px 80px;
+  }
+  nav#toc {
+    width: 270px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 24px;
+    align-self: flex-start;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 14px;
+  }
+  nav#toc h3 {
+    margin: 4px 8px 10px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+  }
+  nav#toc a {
+    display: block;
+    padding: 6px 10px;
+    margin: 1px 0;
+    border-radius: 8px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.88rem;
+    border-left: 3px solid transparent;
+  }
+  nav#toc a:hover {
+    background: #eef7f6;
+    border-left-color: var(--primary);
+    color: var(--primary-dark);
+  }
+  nav#toc a.sub { padding-left: 24px; font-size: 0.82rem; color: var(--text-muted); }
+
+  main { flex: 1; min-width: 0; }
+
+  section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    scroll-margin-top: 20px;
+  }
+  section h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: var(--charcoal);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+  }
+  section h3 {
+    color: var(--primary-dark);
+    font-size: 1.12rem;
+    margin-top: 28px;
+  }
+  section h4 {
+    color: var(--charcoal);
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  /* ===== Tables ===== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 20px;
+    font-size: 0.9rem;
+  }
+  th {
+    background: var(--charcoal);
+    color: #fff;
+    text-align: left;
+    padding: 10px 12px;
+    font-weight: 600;
+  }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #fafcfd; }
+  tr:hover td { background: #eef7f6; }
+
+  /* ===== Code ===== */
+  pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 0.83rem;
+    line-height: 1.55;
+    font-family: 'Cascadia Code', 'Fira Code', Consolas, 'Courier New', monospace;
+  }
+  code {
+    font-family: 'Cascadia Code', 'Fira Code', Consolas, 'Courier New', monospace;
+    background: #eef2f7;
+    color: #b03060;
+    padding: 1px 6px;
+    border-radius: 5px;
+    font-size: 0.86em;
+  }
+  pre code { background: none; color: inherit; padding: 0; }
+
+  /* ===== Callouts ===== */
+  .callout {
+    border-left: 4px solid var(--primary);
+    background: #eef7f6;
+    border-radius: 0 10px 10px 0;
+    padding: 12px 18px;
+    margin: 16px 0;
+    font-size: 0.92rem;
+  }
+  .callout.warn {
+    border-left-color: var(--accent-red);
+    background: #fdeef0;
+  }
+  .callout.info { border-left-color: var(--text-muted); background: #eef3f8; }
+  .callout strong { color: var(--charcoal); }
+
+  /* ===== Badges ===== */
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  .badge.green { background: #d9f2ee; color: #1f7a6f; }
+  .badge.red { background: #fde3e5; color: #c22833; }
+  .badge.blue { background: #e0ebf7; color: #1d5c96; }
+  .badge.gray { background: #e8ecf1; color: #4a5a6a; }
+
+  /* ===== Diagrams ===== */
+  .diagram {
+    background: #fbfdfe;
+    border: 1px dashed #b9c8d6;
+    border-radius: 12px;
+    padding: 22px;
+    margin: 18px 0;
+    text-align: center;
+    overflow-x: auto;
+  }
+  .diagram .layer {
+    display: inline-block;
+    vertical-align: top;
+    min-width: 200px;
+    margin: 6px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .diagram .arrow { font-size: 1.4rem; color: var(--text-muted); margin: 0 6px; vertical-align: middle; }
+  .layer.ui { background: var(--primary); }
+  .layer.nav { background: #457B9D; }
+  .layer.data { background: var(--charcoal); }
+  .layer.util { background: #6c757d; }
+  .layer.firebase { background: #E8842C; }
+  .diagram .box-row { margin-top: 10px; }
+  .diagram .mini {
+    display: inline-block;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    margin: 4px;
+    font-size: 0.8rem;
+    color: var(--charcoal);
+    font-weight: 600;
+  }
+
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    margin: 12px 0;
+  }
+  .flow .step {
+    background: var(--charcoal);
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .flow .step.highlight { background: var(--primary); }
+  .flow .fa { color: var(--text-muted); font-weight: 700; }
+
+  ul.clean { padding-left: 22px; }
+  ul.clean li { margin: 5px 0; }
+
+  .file-tree {
+    background: #0f172a;
+    color: #cbd5e1;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+  .file-tree .dir { color: #7dd3fc; font-weight: 700; }
+  .file-tree .file { color: #e2e8f0; }
+  .file-tree .cmt { color: #64748b; }
+
+  footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 960px) {
+    .container { flex-direction: column; }
+    nav#toc { position: static; width: 100%; max-height: none; }
+    section { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📱 SplitFlat — Technical Design Document</h1>
+  <div class="subtitle">A minimalist Android application for splitting expenses & managing group finances</div>
+  <div class="meta-grid">
+    <span class="meta-chip">📄 Version 1.0</span>
+    <span class="meta-chip">🧱 Native Kotlin · Jetpack Compose</span>
+    <span class="meta-chip">🔥 Firebase (Auth + Firestore)</span>
+    <span class="meta-chip">📦 App v1.0.0 · minSdk 24 · targetSdk 36</span>
+    <span class="meta-chip">👤 Developer: Anish Thakurta</span>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ==================== TABLE OF CONTENTS ==================== -->
+<nav id="toc">
+  <h3>Contents</h3>
+  <a href="#1-introduction">1. Introduction</a>
+  <a href="#2-goals-scope">2. Goals & Scope</a>
+  <a href="#3-tech-stack">3. Technology Stack</a>
+  <a href="#4-architecture">4. System Architecture</a>
+  <a href="#5-project-structure">5. Project Structure</a>
+  <a href="#6-data-design">6. Data Design</a>
+  <a href="#6-1-collections">6.1 Firestore Collections</a>
+  <a href="#6-2-models">6.2 Data Models</a>
+  <a href="#6-3-access-patterns">6.3 Access Patterns</a>
+  <a href="#7-module-design">7. Module Design</a>
+  <a href="#7-1-auth">7.1 Authentication</a>
+  <a href="#7-2-navigation">7.2 Navigation</a>
+  <a href="#7-3-home">7.3 Home Screen</a>
+  <a href="#7-4-create-group">7.4 Create Group</a>
+  <a href="#7-5-group-detail">7.5 Group Detail</a>
+  <a href="#7-6-add-expense">7.6 Add / Edit Expense</a>
+  <a href="#7-7-qr">7.7 QR Join & Share</a>
+  <a href="#7-8-theme">7.8 Theming</a>
+  <a href="#8-algorithms">8. Core Algorithms</a>
+  <a href="#8-1-balance">8.1 Balance Computation</a>
+  <a href="#8-2-simplifier">8.2 Debt Simplification</a>
+  <a href="#8-3-settle">8.3 Settlement Logic</a>
+  <a href="#9-ui-ux">9. UI / UX Design</a>
+  <a href="#10-security">10. Security & Privacy</a>
+  <a href="#11-error-handling">11. Error Handling & Resilience</a>
+  <a href="#12-testing">12. Testing Strategy</a>
+  <a href="#13-build-deploy">13. Build & Deployment</a>
+  <a href="#14-limitations">14. Limitations & Future Roadmap</a>
+  <a href="#15-appendix">15. Appendix</a>
+</nav>
+
+<main>
+
+<!-- ==================== 1. INTRODUCTION ==================== -->
+<section id="1-introduction">
+  <h2>1. Introduction</h2>
+
+  <h3>1.1 Purpose of this Document</h3>
+  <p>This Technical Design Document (TDD) describes the complete technical architecture, data design, module breakdown, algorithms, and engineering decisions behind <strong>SplitFlat</strong>. It is intended for developers maintaining or extending the codebase, technical reviewers, and contributors onboarding to the project.</p>
+
+  <h3>1.2 Product Summary</h3>
+  <p>SplitFlat is a minimalist, modern Android application for splitting expenses and managing group finances. Users authenticate with email/password via Firebase, create expense groups (or 1-on-1 "friend ledgers"), record expenses with flexible split modes, track balances in real time, and settle up debts — optionally minimized through a <em>Smart Debt Simplification</em> algorithm. Group membership can be shared instantly via QR codes.</p>
+
+  <h3>1.3 Definitions & Acronyms</h3>
+  <table>
+    <tr><th>Term</th><th>Definition</th></tr>
+    <tr><td><strong>TDD</strong></td><td>Technical Design Document (this document)</td></tr>
+    <tr><td><strong>UID</strong></td><td>Firebase Authentication user identifier</td></tr>
+    <tr><td><strong>Group</strong></td><td>A shared expense container with 1..N members</td></tr>
+    <tr><td><strong>Friend Ledger</strong></td><td>A special 1-on-1 group (<code>isOneOnOne = true</code>) representing a direct friendship balance</td></tr>
+    <tr><td><strong>Balance</strong></td><td>Net position of a member: positive = is owed money, negative = owes money</td></tr>
+    <tr><td><strong>Settlement</strong></td><td>A recorded payment that offsets an existing debt (stored as an Expense)</td></tr>
+    <tr><td><strong>Simplification</strong></td><td>Greedy netting algorithm that reduces the number of transactions required to settle all debts</td></tr>
+  </table>
+</section>
+
+<!-- ==================== 2. GOALS & SCOPE ==================== -->
+<section id="2-goals-scope">
+  <h2>2. Goals & Scope</h2>
+
+  <h3>2.1 Product Goals</h3>
+  <ul class="clean">
+    <li>Provide a fast, clean, ad-free experience for tracking shared expenses.</li>
+    <li>Support both <strong>group expenses</strong> (trips, roommates, events) and <strong>1-on-1 friend ledgers</strong>.</li>
+    <li>Offer flexible splitting: <em>Equal</em>, <em>Exact amounts</em>, and <em>Percentages</em>.</li>
+    <li>Minimize the number of repayments via Smart Debt Simplification.</li>
+    <li>Enable instant group joining through QR code scanning.</li>
+    <li>Maintain real-time consistency across all members' devices using Firestore listeners.</li>
+  </ul>
+
+  <h3>2.2 In Scope (v1.0)</h3>
+  <table>
+    <tr><th>Feature</th><th>Status</th></tr>
+    <tr><td>Email/password authentication + password reset</td><td><span class="badge green">Implemented</span></td></tr>
+    <tr><td>Group creation with email invitations</td><td><span class="badge green">Implemented</span></td></tr>
+    <tr><td>1-on-1 friend ledgers</td><td><span class="badge green">Implemented</span></td></tr>
+    <tr><td>Expense CRUD (create / edit / delete)</td><td><span class="badge green">Implemented</span></td></tr>
+    <tr><td>Equal / Exact / Percentage splits</td><td><span class="badge green">Implemented</span></td></tr>
+    <tr><td>Category tagging + donut chart analytics</td><td><span class="badge green">Implemented</span></td></tr>
+    <tr><td>Smart Debt Simplification</td><td><span class="badge green">Implemented</span></td></tr>
+    <tr><td>Settle Up (record payments)</td><td><span class="badge green">Implemented</span></td></tr>
+    <tr><td>QR code generation & scanning to join groups</td><td><span class="badge green">Implemented</span></td></tr>
+    <tr><td>Light / dark theming</td><td><span class="badge green">Implemented</span></td></tr>
+    <tr><td>Push notifications, offline queueing, multi-currency</td><td><span class="badge gray">Out of Scope v1</span></td></tr>
+  </table>
+
+  <h3>2.3 Non-Goals</h3>
+  <ul class="clean">
+    <li>No web or iOS client in v1.0.</li>
+    <li>No server-side business logic — all computation happens client-side against Firestore.</li>
+    <li>No payment processing integration (settlements are recorded, not executed).</li>
+  </ul>
+</section>
+
+<!-- ==================== 3. TECH STACK ==================== -->
+<section id="3-tech-stack">
+  <h2>3. Technology Stack</h2>
+
+  <table>
+    <tr><th>Layer</th><th>Technology</th><th>Version</th><th>Rationale</th></tr>
+    <tr>
+      <td><strong>Language</strong></td>
+      <td>Kotlin</td>
+      <td>2.2.10</td>
+      <td>Official Android language; concise, null-safe, coroutine-friendly.</td>
+    </tr>
+    <tr>
+      <td><strong>UI Toolkit</strong></td>
+      <td>Jetpack Compose + Material 3</td>
+      <td>BOM 2026.02.01</td>
+      <td>Declarative UI, less boilerplate, modern Material You design system.</td>
+    </tr>
+    <tr>
+      <td><strong>Build System</strong></td>
+      <td>Gradle (Kotlin DSL) + AGP</td>
+      <td>AGP 9.2.1</td>
+      <td>Type-safe build scripts; version catalog for dependency management.</td>
+    </tr>
+    <tr>
+      <td><strong>Authentication</strong></td>
+      <td>Firebase Authentication</td>
+      <td>BOM 33.1.2</td>
+      <td>Managed email/password auth, password reset, session persistence.</td>
+    </tr>
+    <tr>
+      <td><strong>Database</strong></td>
+      <td>Cloud Firestore</td>
+      <td>BOM 33.1.2</td>
+      <td>Real-time listeners, offline cache, flexible document model.</td>
+    </tr>
+    <tr>
+      <td><strong>Navigation</strong></td>
+      <td>Navigation Compose</td>
+      <td>2.7.7</td>
+      <td>Type-safe route arguments, back-stack management.</td>
+    </tr>
+    <tr>
+      <td><strong>QR Generation</strong></td>
+      <td>ZXing (core)</td>
+      <td>3.5.3</td>
+      <td>Lightweight, dependency-free QR encoding to Bitmap.</td>
+    </tr>
+    <tr>
+      <td><strong>QR Scanning</strong></td>
+      <td>Google Play Services Code Scanner (ML Kit)</td>
+      <td>16.1.0</td>
+      <td>No camera permission required; Google-hosted scanning UI.</td>
+    </tr>
+    <tr>
+      <td><strong>AndroidX</strong></td>
+      <td>Core KTX, Lifecycle, Activity Compose</td>
+      <td>1.10.1 / 2.6.1 / 1.8.0</td>
+      <td>Core Kotlin extensions and lifecycle-aware components.</td>
+    </tr>
+    <tr>
+      <td><strong>Testing</strong></td>
+      <td>JUnit 4, Espresso, Compose UI Test</td>
+      <td>4.13.2 / 3.5.1 / BOM</td>
+      <td>Unit + instrumented + declarative UI testing.</td>
+    </tr>
+  </table>
+
+  <div class="callout info">
+    <strong>SDK Configuration:</strong> <code>minSdk = 24</code> (Android 7.0, ~99% device coverage), <code>targetSdk/compileSdk = 36</code>, Java 11 compatibility, single <code>release</code> build type with minification disabled in v1.0.
+  </div>
+</section>
+
+<!-- ==================== 4. ARCHITECTURE ==================== -->
+<section id="4-architecture">
+  <h2>4. System Architecture</h2>
+
+  <h3>4.1 Architectural Style</h3>
+  <p>SplitFlat follows a <strong>client-centric, single-module Compose architecture</strong>. There is no custom backend — Firebase acts as the entire server layer. The app is organized into a lightweight layered structure inside one Gradle module:</p>
+
+  <div class="diagram">
+    <div>
+      <span class="layer ui">🎨 UI Layer (Compose Screens)</span>
+      <span class="arrow">⇄</span>
+      <span class="layer nav">🧭 Navigation Layer</span>
+      <span class="arrow">⇄</span>
+      <span class="layer data">💾 Firebase Services</span>
+    </div>
+    <div class="box-row">
+      <span class="mini">LoginScreen</span>
+      <span class="mini">SignUpScreen</span>
+      <span class="mini">HomeScreen</span>
+      <span class="mini">CreateGroupScreen</span>
+      <span class="mini">GroupDetailScreen</span>
+      <span class="mini">AddExpenseScreen</span>
+    </div>
+    <div class="box-row">
+      <span class="mini">utils / DebtSimplifier</span>
+      <span class="mini">utils / QrCodeGenerator</span>
+      <span class="mini">model / User · Group · Expense</span>
+    </div>
+    <div class="box-row">
+      <span class="layer firebase">🔥 Firebase Auth &nbsp;·&nbsp; Cloud Firestore &nbsp;·&nbsp; ML Kit Scanner</span>
+    </div>
+  </div>
+
+  <h3>4.2 Layer Responsibilities</h3>
+  <table>
+    <tr><th>Layer</th><th>Package</th><th>Responsibility</th></tr>
+    <tr>
+      <td><strong>UI Layer</strong></td>
+      <td><code>ui.auth</code>, <code>ui.home</code>, <code>ui.group</code>, <code>ui.theme</code></td>
+      <td>Stateful Composables that own screen state via <code>remember</code>/<code>mutableStateOf</code>, render Material 3 UI, and invoke Firebase SDK directly through listener callbacks.</td>
+    </tr>
+    <tr>
+      <td><strong>Navigation</strong></td>
+      <td><code>navigation.AppNavigation</code></td>
+      <td>Defines the route graph (<code>Screen</code> sealed class), resolves auth state for the start destination, and wires navigation callbacks between screens.</td>
+    </tr>
+    <tr>
+      <td><strong>Domain / Utils</strong></td>
+      <td><code>utils.DebtSimplifier</code>, <code>utils.QrCodeGenerator</code></td>
+      <td>Pure, side-effect-free business logic: debt netting algorithm and QR bitmap generation.</td>
+    </tr>
+    <tr>
+      <td><strong>Model</strong></td>
+      <td><code>model.Models.kt</code></td>
+      <td>Serializable data classes mirroring Firestore documents.</td>
+    </tr>
+    <tr>
+      <td><strong>Backend (BaaS)</strong></td>
+      <td>Firebase</td>
+      <td>Identity (Auth), persistence + realtime sync (Firestore), barcode scanning (ML Kit via Play Services).</td>
+    </tr>
+  </table>
+
+  <h3>4.3 Key Architectural Decisions (ADR Summary)</h3>
+  <table>
+    <tr><th>#</th><th>Decision</th><th>Alternatives Considered</th><th>Consequences</th></tr>
+    <tr>
+      <td>ADR-1</td>
+      <td>Direct Firebase calls from Composables (no ViewModel/Repository layer)</td>
+      <td>MVVM with Repositories, Clean Architecture</td>
+      <td>✅ Minimal boilerplate, fast MVP delivery. ⚠️ Logic coupled to UI; harder to unit test; refactor to ViewModels recommended as the app grows.</td>
+    </tr>
+    <tr>
+      <td>ADR-2</td>
+      <td>Settlements stored as <code>Expense</code> documents</td>
+      <td>Separate <code>settlements</code> collection</td>
+      <td>✅ Single balance computation path; settlements automatically reflected in balances. ⚠️ Settlement entries appear in the expense list.</td>
+    </tr>
+    <tr>
+      <td>ADR-3</td>
+      <td>Friend ledgers modeled as Groups with <code>isOneOnOne</code> flag</td>
+      <td>Dedicated friendship entity</td>
+      <td>✅ Reuses all group machinery (expenses, balances, QR). ⚠️ Slight semantic overload of the Group model.</td>
+    </tr>
+    <tr>
+      <td>ADR-4</td>
+      <td>Play Services Code Scanner instead of CameraX + ZXing decode</td>
+      <td>CameraX + ML Kit bundled, ZXing scanning</td>
+      <td>✅ Zero camera permission, tiny APK impact, Google-managed UI. ⚠️ Requires Google Play Services on device.</td>
+    </tr>
+    <tr>
+      <td>ADR-5</td>
+      <td>Greedy max-debtor/max-creditor netting</td>
+      <td>Linear programming (optimal min-transactions), graph algorithms</td>
+      <td>✅ Simple, O(n²) worst case, produces ≤ n−1 transactions in practice. ⚠️ Not guaranteed globally minimal transaction count.</td>
+    </tr>
+    <tr>
+      <td>ADR-6</td>
+      <td>Dynamic color disabled by default</td>
+      <td>Material You dynamic theming on Android 12+</td>
+      <td>✅ Consistent minimalist brand palette (mint green / charcoal). ⚠️ Less OS-level personalization.</td>
+    </tr>
+  </table>
+
+  <h3>4.4 Runtime Flow — Cold Start</h3>
+  <div class="flow">
+    <span class="step">App Launch</span><span class="fa">→</span>
+    <span class="step">MainActivity.onCreate</span><span class="fa">→</span>
+    <span class="step">enableEdgeToEdge + setContent</span><span class="fa">→</span>
+    <span class="step">SplitFlatTheme</span><span class="fa">→</span>
+    <span class="step highlight">AppNavigation</span><span class="fa">→</span>
+    <span class="step">Auth check: currentUser?</span><span class="fa">→</span>
+    <span class="step">Login OR Home</span>
+  </div>
+</section>
+
+<!-- ==================== 5. PROJECT STRUCTURE ==================== -->
+<section id="5-project-structure">
+  <h2>5. Project Structure</h2>
+
+  <div class="file-tree">
+<span class="dir">SplitFlat/</span>
+├── <span class="file">build.gradle.kts</span>            <span class="cmt">// Root build config</span>
+├── <span class="file">settings.gradle.kts</span>          <span class="cmt">// Module registration</span>
+├── <span class="file">gradle.properties</span>
+├── <span class="dir">gradle/</span>
+│   ├── <span class="file">libs.versions.toml</span>       <span class="cmt">// Version catalog (single source of truth)</span>
+│   └── <span class="dir">wrapper/</span>
+└── <span class="dir">app/</span>
+    ├── <span class="file">build.gradle.kts</span>          <span class="cmt">// App module: SDK levels, dependencies</span>
+    ├── <span class="file">google-services.json</span>      <span class="cmt">// Firebase project config</span>
+    ├── <span class="file">proguard-rules.pro</span>
+    └── <span class="dir">src/</span>
+        ├── <span class="dir">main/</span>
+        │   ├── <span class="file">AndroidManifest.xml</span> <span class="cmt">// Launcher activity + ML Kit meta-data</span>
+        │   ├── <span class="dir">java/com/example/splitflat/</span>
+        │   │   ├── <span class="file">MainActivity.kt</span>          <span class="cmt">// Single-activity entry point</span>
+        │   │   ├── <span class="dir">model/</span>
+        │   │   │   └── <span class="file">Models.kt</span>            <span class="cmt">// User, Group, Expense</span>
+        │   │   ├── <span class="dir">navigation/</span>
+        │   │   │   └── <span class="file">AppNavigation.kt</span>     <span class="cmt">// Route graph + auth gate</span>
+        │   │   ├── <span class="dir">ui/</span>
+        │   │   │   ├── <span class="dir">auth/</span>               <span class="cmt">// LoginScreen, SignUpScreen</span>
+        │   │   │   ├── <span class="dir">home/</span>               <span class="cmt">// HomeScreen, CreateGroupScreen</span>
+        │   │   │   ├── <span class="dir">group/</span>              <span class="cmt">// GroupDetailScreen, AddExpenseScreen</span>
+        │   │   │   └── <span class="dir">theme/</span>              <span class="cmt">// Color, Theme, Type</span>
+        │   │   └── <span class="dir">utils/</span>
+        │   │       ├── <span class="file">DebtSimplifier.kt</span>     <span class="cmt">// Greedy netting algorithm</span>
+        │   │       └── <span class="file">QrCodeGenerator.kt</span>    <span class="cmt">// ZXing QR → Bitmap</span>
+        │   └── <span class="dir">res/</span>                    <span class="cmt">// Icons, strings, themes, backup rules</span>
+        ├── <span class="dir">test/</span>                       <span class="cmt">// JVM unit tests</span>
+        └── <span class="dir">androidTest/</span>                <span class="cmt">// Instrumented tests</span>
+  </div>
+
+  <div class="callout">
+    <strong>Single-Activity Pattern:</strong> The entire app runs inside <code>MainActivity</code>; every screen is a Composable destination managed by Navigation Compose. No fragments, no XML layouts.
+  </div>
+</section>
+
+<!-- ==================== 6. DATA DESIGN ==================== -->
+<section id="6-data-design">
+  <h2>6. Data Design</h2>
+
+  <h3 id="6-1-collections">6.1 Firestore Collections</h3>
+  <p>Firestore uses a flat, three-collection design. Document IDs are app-generated UUIDs (except <code>users</code>, which uses the Auth UID).</p>
+
+  <table>
+    <tr><th>Collection</th><th>Document ID</th><th>Purpose</th><th>Key Queries</th></tr>
+    <tr>
+      <td><code>users</code></td>
+      <td>Firebase Auth UID</td>
+      <td>Public user profile (name, email)</td>
+      <td><code>whereEqualTo("email", x)</code> for invites/friend-add; <code>whereIn("uid", [...])</code> for member hydration</td>
+    </tr>
+    <tr>
+      <td><code>groups</code></td>
+      <td>UUID (client-generated)</td>
+      <td>Expense groups & 1-on-1 friend ledgers</td>
+      <td><code>whereArrayContains("members", uid)</code> for home list; direct <code>document(id).get()</code> for QR join</td>
+    </tr>
+    <tr>
+      <td><code>expenses</code></td>
+      <td>UUID (client-generated)</td>
+      <td>Expenses <em>and</em> settlement records</td>
+      <td><code>whereEqualTo("groupId", id)</code> with snapshot listener for real-time balance updates</td>
+    </tr>
+  </table>
+
+  <h4>Entity-Relationship Overview</h4>
+  <div class="diagram">
+    <span class="mini">User (uid)</span>
+    <span class="arrow">─── belongs to ───▶</span>
+    <span class="mini">Group (id) &nbsp;[members: uid[]]</span>
+    <span class="arrow">─── has many ───▶</span>
+    <span class="mini">Expense (id) &nbsp;[groupId, paidBy, splits{uid: ₹}]</span>
+    <div class="box-row">
+      <span class="mini">1 User : N Groups (via members array)</span>
+      <span class="mini">1 Group : N Expenses (via groupId)</span>
+      <span class="mini">1 Expense : N Split entries (via splits map)</span>
+    </div>
+  </div>
+
+  <h3 id="6-2-models">6.2 Data Models</h3>
+
+  <h4>User</h4>
+  <pre><code>data class User(
+    val uid: String = "",      // Firebase Auth UID (document ID)
+    val name: String = "",     // Display name
+    val email: String = ""     // Login email (used for lookups)
+)</code></pre>
+
+  <h4>Group</h4>
+  <pre><code>data class Group(
+    val id: String = "",                       // UUID, matches document ID
+    val name: String = "",                     // Group name ("Friendship" for ledgers)
+    val createdBy: String = "",                // Creator's UID
+    val members: List<String> = emptyList(),   // Member UIDs (array-contains queryable)
+    val simplifyDebts: Boolean = false,        // Enables Smart Debt Simplification
+    val isOneOnOne: Boolean = false,           // true ⇒ 1-on-1 friend ledger
+    val timestamp: Long = 0L                   // Creation epoch millis
+)</code></pre>
+
+  <h4>Expense</h4>
+  <pre><code>data class Expense(
+    val id: String = "",
+    val groupId: String = "",                  // Parent group reference
+    val title: String = "",                    // e.g. "Dinner", "Settle Up: A -> B"
+    val amount: Double = 0.0,                  // Total amount (₹)
+    val paidBy: String = "",                   // UID of payer
+    val splitType: String = "EQUAL",           // "EQUAL" | "EXACT" | "PERCENTAGE"
+    val category: String = "Other",            // "🍔 Food", "🚗 Transport", ...
+    val splitAmong: List<String> = emptyList(),// Legacy: participants of EQUAL splits
+    val splits: Map<String, Double> = emptyMap(), // UID → amount owed (computed at save time)
+    val timestamp: Long = 0L
+)</code></pre>
+
+  <div class="callout">
+    <strong>Design note — denormalized splits:</strong> Split amounts are <em>computed client-side at save time</em> and stored as a materialized map (<code>splits</code>). This makes balance computation a pure fold over the expense list with no runtime division, and keeps reads cheap. The <code>splitAmong</code> list is retained only for legacy EQUAL-split compatibility.
+  </div>
+
+  <h3 id="6-3-access-patterns">6.3 Data Access Patterns</h3>
+  <table>
+    <tr><th>Operation</th><th>Screen</th><th>Mechanism</th><th>Real-time?</th></tr>
+    <tr><td>Load my groups</td><td>Home</td><td><code>groups.whereArrayContains("members", uid)</code></td><td>✅ Snapshot listener</td></tr>
+    <tr><td>Hydrate member names</td><td>Home, GroupDetail, AddExpense</td><td><code>users.whereIn("uid", [...])</code></td><td>❌ One-shot get</td></tr>
+    <tr><td>Find user by email</td><td>Invite / Add Friend</td><td><code>users.whereEqualTo("email", email)</code></td><td>❌ One-shot get</td></tr>
+    <tr><td>Load group</td><td>GroupDetail, AddExpense</td><td><code>groups.document(id)</code></td><td>✅ Snapshot listener (GroupDetail)</td></tr>
+    <tr><td>Load expenses</td><td>GroupDetail</td><td><code>expenses.whereEqualTo("groupId", id)</code></td><td>✅ Snapshot listener</td></tr>
+    <tr><td>Join via QR</td><td>Home (scanner)</td><td><code>groups.document(scannedId).get()</code> then <code>update("members", +uid)</code></td><td>❌ One-shot</td></tr>
+    <tr><td>Toggle simplification</td><td>GroupDetail</td><td><code>groups.document(id).update("simplifyDebts", bool)</code></td><td>✅ Via listener</td></tr>
+  </table>
+
+  <div class="callout warn">
+    <strong>Known constraint:</strong> Firestore <code>whereIn</code> is limited to 10 values per query. Groups with more than 10 members will fail member hydration (<code>users.whereIn("uid", members)</code>). See §14 for the chunking fix on the roadmap.
+  </div>
+</section>
+
+<!-- ==================== 7. MODULE DESIGN ==================== -->
+<section id="7-module-design">
+  <h2>7. Module Design</h2>
+
+  <!-- 7.1 Auth -->
+  <h3 id="7-1-auth">7.1 Authentication Module — <code>ui.auth</code></h3>
+
+  <h4>LoginScreen.kt</h4>
+  <table>
+    <tr><th>Aspect</th><th>Detail</th></tr>
+    <tr><td>State</td><td><code>email</code>, <code>password</code>, <code>isLoading</code>, <code>errorMessage</code>, plus forgot-password dialog state (<code>resetEmail</code>, <code>isSendingReset</code>, <code>resetStatusMessage</code>, <code>isResetSuccess</code>)</td></tr>
+    <tr><td>Actions</td><td><code>auth.signInWithEmailAndPassword(email, password)</code>; validation requires non-empty fields</td></tr>
+    <tr><td>Forgot Password</td><td>Dialog pre-filled with entered email → <code>auth.sendPasswordResetEmail()</code> with success/error status inline</td></tr>
+    <tr><td>Callbacks</td><td><code>onLoginSuccess</code> → navigate Home (pop Login); <code>onNavigateToSignUp</code></td></tr>
+    <tr><td>UX details</td><td>16dp rounded inputs, 56dp CTA button, inline <code>CircularProgressIndicator</code> while loading, error text in <code>colorScheme.error</code></td></tr>
+  </table>
+
+  <h4>SignUpScreen.kt</h4>
+  <table>
+    <tr><th>Aspect</th><th>Detail</th></tr>
+    <tr><td>State</td><td><code>name</code>, <code>email</code>, <code>password</code>, <code>isLoading</code>, <code>errorMessage</code></td></tr>
+    <tr><td>Flow</td><td>1) <code>createUserWithEmailAndPassword</code> → 2) write profile doc <code>users/{uid}</code> with <code>uid</code>, <code>name</code>, <code>email</code> → 3) <code>onSignUpSuccess</code></td></tr>
+    <tr><td>Failure modes</td><td>Auth failure → inline message; profile write failure → "Failed to save user data"; missing UID → proceed without profile (edge case)</td></tr>
+  </table>
+
+  <div class="flow">
+    <span class="step">Validate fields</span><span class="fa">→</span>
+    <span class="step">createUserWithEmailAndPassword</span><span class="fa">→</span>
+    <span class="step">Write users/{uid}</span><span class="fa">→</span>
+    <span class="step highlight">Navigate Home</span>
+  </div>
+
+  <!-- 7.2 Navigation -->
+  <h3 id="7-2-navigation">7.2 Navigation Module — <code>navigation.AppNavigation</code></h3>
+
+  <h4>Route Graph</h4>
+  <table>
+    <tr><th>Route</th><th>Screen</th><th>Arguments</th><th>Notes</th></tr>
+    <tr><td><code>login</code></td><td>LoginScreen</td><td>—</td><td>Start destination when unauthenticated</td></tr>
+    <tr><td><code>signup</code></td><td>SignUpScreen</td><td>—</td><td>Reached from Login</td></tr>
+    <tr><td><code>home</code></td><td>HomeScreen</td><td>—</td><td>Start destination when authenticated</td></tr>
+    <tr><td><code>create_group</code></td><td>CreateGroupScreen</td><td>—</td><td>—</td></tr>
+    <tr><td><code>group_detail/{groupId}</code></td><td>GroupDetailScreen</td><td><code>groupId: String</code></td><td>Helper <code>createRoute(groupId)</code></td></tr>
+    <tr><td><code>add_expense/{groupId}</code></td><td>AddExpenseScreen</td><td><code>groupId: String</code></td><td>Create mode (<code>expenseId = null</code>)</td></tr>
+    <tr><td><code>edit_expense/{groupId}/{expenseId}</code></td><td>AddExpenseScreen</td><td><code>groupId</code>, <code>expenseId</code></td><td>Edit mode (same composable reused)</td></tr>
+  </table>
+
+  <h4>Auth Gating & Back-Stack Behavior</h4>
+  <ul class="clean">
+    <li>Start destination decided once at composition: <code>auth.currentUser != null ? Home : Login</code>.</li>
+    <li>Login → Home uses <code>popUpTo(Login) { inclusive = true }</code> so Back does not return to auth.</li>
+    <li>SignUp → Home pops the entire Login stack; SignUp → Login pops SignUp.</li>
+    <li>Sign-out navigates to Login popping Home (inclusive).</li>
+    <li>Create-group and add/edit-expense use <code>popBackStack()</code> to return.</li>
+  </ul>
+
+  <!-- 7.3 Home -->
+  <h3 id="7-3-home">7.3 Home Module — <code>ui.home.HomeScreen</code></h3>
+
+  <h4>Responsibilities</h4>
+  <ul class="clean">
+    <li><strong>Tabs:</strong> "Groups" (regular groups) and "Friends" (1-on-1 ledgers), filtered client-side from a single listener via <code>isOneOnOne</code>.</li>
+    <li><strong>Real-time data:</strong> <code>LaunchedEffect</code> registers a snapshot listener on <code>groups.whereArrayContains("members", uid)</code>; member names hydrated with a secondary <code>users.whereIn</code> query.</li>
+    <li><strong>Pull-to-refresh:</strong> Material 3 <code>PullToRefreshBox</code> triggers <code>loadData()</code> with a 500 ms minimum spinner duration.</li>
+    <li><strong>QR scanner entry point:</strong> launches <code>GmsBarcodeScanning</code> client; on success, fetches the group, appends the current UID to <code>members</code> if absent, then navigates to Group Detail.</li>
+    <li><strong>Add Friend dialog:</strong> email lookup → duplicate/self checks → creates a <code>Group</code> with <code>isOneOnOne = true</code>, <code>name = "Friendship"</code>, members = [self, friend].</li>
+    <li><strong>Overflow menu:</strong> About dialog (developer, stack, version 1.0.0) and Sign Out.</li>
+    <li><strong>Empty states:</strong> contextual guidance per tab ("Tap the + button to create one!").</li>
+  </ul>
+
+  <h4>QR Join Flow</h4>
+  <div class="flow">
+    <span class="step">Tap QR icon</span><span class="fa">→</span>
+    <span class="step">GmsBarcodeScanning.startScan()</span><span class="fa">→</span>
+    <span class="step">Read rawValue (groupId)</span><span class="fa">→</span>
+    <span class="step">Fetch group doc</span><span class="fa">→</span>
+    <span class="step">Member? No → update members[]</span><span class="fa">→</span>
+    <span class="step highlight">Navigate GroupDetail</span>
+  </div>
+
+  <h4>GroupCard composable</h4>
+  <p>Renders group name (or friend display name for ledgers), member count / "1-on-1 Ledger" subtitle, 16dp rounded card with 2dp elevation, whole-card clickable.</p>
+
+  <!-- 7.4 Create Group -->
+  <h3 id="7-4-create-group">7.4 Create Group Module — <code>ui.home.CreateGroupScreen</code></h3>
+  <table>
+    <tr><th>Aspect</th><th>Detail</th></tr>
+    <tr><td>Inputs</td><td>Group name (required), invite-by-email chips (local list, deduped), Smart Debt Simplification checkbox</td></tr>
+    <tr><td>Flow</td><td>Generate UUID → resolve invited emails to UIDs via <code>users.whereIn("email", list)</code> → write <code>Group</code> doc with creator as first member → <code>onGroupCreated</code> (popBackStack)</td></tr>
+    <tr><td>Validation</td><td>Blank group name rejected; duplicate emails ignored in UI list</td></tr>
+    <tr><td>Edge case</td><td>Empty invite list → group created with creator only; unregistered emails silently skipped (MVP behavior)</td></tr>
+  </table>
+
+  <!-- 7.5 Group Detail -->
+  <h3 id="7-5-group-detail">7.5 Group Detail Module — <code>ui.group.GroupDetailScreen</code></h3>
+  <p>The functional core of the app. Composes:</p>
+  <table>
+    <tr><th>Section</th><th>Behavior</th></tr>
+    <tr><td><strong>Header</strong></td><td>Dynamic title (friend name for ledgers, group name otherwise); QR display button; invite button (hidden for 1-on-1 ledgers)</td></tr>
+    <tr><td><strong>Analytics</strong></td><td><code>DonutChart</code> — Canvas-drawn ring of category totals with center total and legend (slices > 5% shown)</td></tr>
+    <tr><td><strong>Simplification toggle</strong></td><td>Switch bound to <code>groups/{id}.simplifyDebts</code>; listener re-renders suggestions instantly</td></tr>
+    <tr><td><strong>Balances panel</strong></td><td>Mode A (simplify ON): suggested transactions "X pays Y ₹Z". Mode B (OFF): raw per-member net balances (+green / −red)</td></tr>
+    <tr><td><strong>Expense list</strong></td><td>LazyColumn of <code>ExpenseCard</code> (title, payer, amount, overflow menu with Edit/Delete); delete removes Firestore doc directly</td></tr>
+    <tr><td><strong>Settle Up dialog</strong></td><td>Lists simplified debts; select one → enter amount → records a settlement Expense (see §8.3)</td></tr>
+    <tr><td><strong>Invite dialog</strong></td><td>Email lookup → membership checks → <code>update("members", +uid)</code></td></tr>
+    <tr><td><strong>QR dialog</strong></td><td>Generates 512×512 QR of groupId via ZXing; shows group ID caption</td></tr>
+    <tr><td><strong>Data</strong></td><td>Snapshot listeners on group doc + expenses collection; balances recomputed on every emission (see §8.1)</td></tr>
+  </table>
+
+  <!-- 7.6 Add Expense -->
+  <h3 id="7-6-add-expense">7.6 Add / Edit Expense Module — <code>ui.group.AddExpenseScreen</code></h3>
+  <table>
+    <tr><th>Aspect</th><th>Detail</th></tr>
+    <tr><td>Dual mode</td><td>Single composable; <code>expenseId == null</code> ⇒ create, else edit (pre-loads expense, reuses same document ID on save)</td></tr>
+    <tr><td>Inputs</td><td>Title, amount (₹), category chips (🍔 Food, 🚗 Transport, 🏠 Housing, 🛒 Groceries, 🎉 Fun, 📝 Other), split type tabs</td></tr>
+    <tr><td>Split modes</td><td><strong>EQUAL</strong>: amount ÷ members. <strong>EXACT</strong>: per-member ₹ inputs, must sum to total (±0.01). <strong>PERCENTAGE</strong>: per-member % inputs, must sum to 100% (±0.01)</td></tr>
+    <tr><td>Validation</td><td>Title non-blank; amount > 0; group/members loaded; split-sum checks with animated error text</td></tr>
+    <tr><td>Persistence</td><td>Writes computed <code>splits</code> map + <code>splitAmong</code> (legacy) to <code>expenses/{docId}</code></td></tr>
+    <tr><td>Edit pre-fill</td><td>EXACT values restored verbatim; PERCENTAGE back-computed as <code>(amount/total)×100</code></td></tr>
+  </table>
+
+  <!-- 7.7 QR -->
+  <h3 id="7-7-qr">7.7 QR Utilities — <code>utils.QrCodeGenerator</code> + ML Kit Scanner</h3>
+  <ul class="clean">
+    <li><strong>Generation:</strong> ZXing <code>QRCodeWriter.encode(text, QR_CODE, 512, 512)</code> → per-pixel <code>Bitmap</code> (RGB_565, black/white); returns <code>null</code> on failure (rendered as error text).</li>
+    <li><strong>Payload:</strong> raw group UUID — scannable by any SplitFlat client.</li>
+    <li><strong>Scanning:</strong> <code>GmsBarcodeScanning.getClient(context).startScan()</code>; success callback receives <code>Barcode</code>, uses <code>rawValue</code> as group ID. No CAMERA permission needed (Play-Services-hosted UI). Manifest declares ML Kit dependency <code>barcode_ui</code>.</li>
+  </ul>
+
+  <!-- 7.8 Theme -->
+  <h3 id="7-8-theme">7.8 Theming — <code>ui.theme</code></h3>
+  <table>
+    <tr><th>Token</th><th>Light</th><th>Dark</th></tr>
+    <tr><td>primary / secondary</td><td><code>#2A9D8F</code> MintGreen</td><td><code>#2A9D8F</code> MintGreenDark</td></tr>
+    <tr><td>tertiary (accent)</td><td><code>#E63946</code> ExpenseRed</td><td><code>#E63946</code> ExpenseRed</td></tr>
+    <tr><td>background</td><td><code>#F8F9FA</code> SoftBackground</td><td><code>#121212</code> DarkBackground</td></tr>
+    <tr><td>surface</td><td><code>#FFFFFF</code> SurfaceWhite</td><td><code>#1E1E1E</code> DarkSurface</td></tr>
+    <tr><td>onBackground / onSurface</td><td><code>#1D3557</code> TextPrimary</td><td><code>#F1FAEE</code> TextPrimaryDark</td></tr>
+  </table>
+  <ul class="clean">
+    <li><code>SplitFlatTheme</code> auto-switches on <code>isSystemInDarkTheme()</code>; dynamic color supported but <strong>disabled by default</strong> to preserve brand palette.</li>
+    <li>Custom <code>Typography</code> from <code>Type.kt</code>; consistent 16dp corner radius language across inputs/buttons/cards.</li>
+  </ul>
+</section>
+
+<!-- ==================== 8. ALGORITHMS ==================== -->
+<section id="8-algorithms">
+  <h2>8. Core Algorithms</h2>
+
+  <h3 id="8-1-balance">8.1 Balance Computation</h3>
+  <p>Executed on every expense snapshot emission (GroupDetailScreen). For each expense:</p>
+  <pre><code>balance[paidBy] += expense.amount            // payer is credited the full amount
+
+if (expense.splits.isNotEmpty()) {
+    expense.splits.forEach { (uid, owed) ->
+        balance[uid] -= owed                  // each participant debited their share
+    }
+} else if (expense.splitAmong.isNotEmpty()) { // legacy EQUAL fallback
+    val perHead = expense.amount / expense.splitAmong.size
+    expense.splitAmong.forEach { uid -> balance[uid] -= perHead }
+}</code></pre>
+  <p><strong>Invariant:</strong> <code>Σ balances == 0</code> (conservation of money) — every rupee credited to a payer is debited across participants.</p>
+
+  <h3 id="8-2-simplifier">8.2 Smart Debt Simplification — <code>utils.DebtSimplifier</code></h3>
+  <p>Greedy max-matching netting. Given net balances, produce the minimal set of direct transfers:</p>
+
+  <pre><code>fun simplifyDebts(balances: Map<String, Double>): List<Transaction> {
+    // 1. Drop balances within ±0.01 (epsilon tolerance)
+    val valid = balances.filterValues { abs(it) > 0.01 }
+
+    // 2. Partition: debtors (negative) and creditors (positive), as absolute values
+    val debtors   = valid.filterValues { it < 0 }.mapValues { abs(it) }
+    val creditors = valid.filterValues { it > 0 }
+
+    // 3. Greedy loop: pair the LARGEST debtor with the LARGEST creditor
+    while (debtors.isNotEmpty() && creditors.isNotEmpty()) {
+        val maxDebtor   = debtors.maxByOrNull { it.value }
+        val maxCreditor = creditors.maxByOrNull { it.value }
+        val amount = min(maxDebtor.value, maxCreditor.value)
+
+        emit Transaction(from = maxDebtor, to = maxCreditor, amount)
+
+        // 4. Reduce or remove both sides (residual < 0.01 ⇒ settled)
+        adjust/remove maxDebtor and maxCreditor by `amount`
+    }
+}</code></pre>
+
+  <h4>Worked Example</h4>
+  <table>
+    <tr><th>Step</th><th>Debtors (owe)</th><th>Creditors (owed)</th><th>Transaction emitted</th></tr>
+    <tr><td>Input balances</td><td>A: −₹400, B: −₹100</td><td>C: +₹300, D: +₹200</td><td>—</td></tr>
+    <tr><td>1</td><td>A: ₹400</td><td>C: ₹300</td><td><strong>A → C ₹300</strong></td></tr>
+    <tr><td>2</td><td>A: ₹100, B: ₹100</td><td>D: ₹200</td><td><strong>A → D ₹100</strong></td></tr>
+    <tr><td>3</td><td>B: ₹100</td><td>D: ₹100</td><td><strong>B → D ₹100</strong></td></tr>
+    <tr><td>Result</td><td colspan="3">3 transactions instead of up to 4 raw pairwise debts; all balances zero</td></tr>
+  </table>
+
+  <h4>Properties</h4>
+  <table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Complexity</td><td>O(n²) worst case (n = participants); typically far fewer iterations</td></tr>
+    <tr><td>Correctness</td><td>Always fully settles (Σ = 0 input ⇒ empty end state); amounts conserved</td></tr>
+    <tr><td>Transaction bound</td><td>≤ n − 1 transactions; greedy largest-first heuristic keeps counts low in practice</td></tr>
+    <tr><td>Epsilon handling</td><td>±₹0.01 treated as settled — absorbs floating-point residue</td></tr>
+    <tr><td>Purity</td><td>Side-effect-free object; trivially unit-testable</td></tr>
+  </table>
+
+  <h3 id="8-3-settle">8.3 Settlement Recording</h3>
+  <p>"Settle Up" converts a suggested transaction into a persisted record. The debtor pays the creditor; this is stored as a synthetic Expense engineered to net out both balances:</p>
+  <pre><code>Expense(
+    title    = "Settle Up: {fromName} -> {toName}",
+    amount   = enteredAmount,
+    paidBy   = tx.fromUid,              // debtor "pays"...
+    splitType= "EXACT",
+    category = "📝 Other",
+    splits   = mapOf(tx.toUid to amt)   // ...and creditor is debited the same amount
+)</code></pre>
+  <p><strong>Net effect:</strong> payer +amt, recipient −amt ⇒ both original balances move toward zero by exactly <code>amt</code>. Partial settlements are supported (amount field is editable, defaults to full debt). The real-time expense listener recomputes balances and suggestions automatically.</p>
+</section>
+
+<!-- ==================== 9. UI/UX ==================== -->
+<section id="9-ui-ux">
+  <h2>9. UI / UX Design</h2>
+
+  <h3>9.1 Design Language</h3>
+  <ul class="clean">
+    <li><strong>Minimalist fintech aesthetic:</strong> mint-green primary, charcoal text, generous whitespace, soft surfaces.</li>
+    <li><strong>Shape system:</strong> 16dp rounded corners on all interactive containers; 12dp on list cards.</li>
+    <li><strong>Iconography:</strong> Material Icons Extended (QR scanner, QR code, person-add, more-vert, arrow-back).</li>
+    <li><strong>Emoji category chips:</strong> scannable at a glance without custom icon assets.</li>
+    <li><strong>Currency:</strong> INR (₹) formatted via <code>String.format(Locale.US, "%.2f", …)</code>.</li>
+  </ul>
+
+  <h3>9.2 Screen Inventory & States</h3>
+  <table>
+    <tr><th>Screen</th><th>Loading</th><th>Empty</th><th>Error</th><th>Primary Action</th></tr>
+    <tr><td>Login</td><td>Button spinner</td><td>—</td><td>Inline red text</td><td>Log In</td></tr>
+    <tr><td>SignUp</td><td>Button spinner</td><td>—</td><td>Inline red text</td><td>Sign Up</td></tr>
+    <tr><td>Home</td><td>Center spinner + pull-refresh</td><td>Per-tab guidance copy</td><td>Listener silently stops loading</td><td>FAB (+ group / + friend)</td></tr>
+    <tr><td>CreateGroup</td><td>Button spinner</td><td>—</td><td>Inline red text</td><td>Create Group</td></tr>
+    <tr><td>GroupDetail</td><td>Full-screen spinner</td><td>"No expenses yet."</td><td>Listener fallback</td><td>FAB Add Expense</td></tr>
+    <tr><td>AddExpense</td><td>Button spinner</td><td>—</td><td>Animated error banner</td><td>Save Expense</td></tr>
+  </table>
+
+  <h3>9.3 Interaction Patterns</h3>
+  <ul class="clean">
+    <li><strong>Real-time-first:</strong> all lists update live via Firestore listeners; pull-to-refresh is a supplementary manual sync.</li>
+    <li><strong>Dialogs over routes:</strong> invites, QR display, settle-up, about, and add-friend are Material 3 <code>AlertDialog</code>s — keeping the nav graph shallow.</li>
+    <li><strong>Optimistic-free writes:</strong> buttons disable + show spinners during async writes; no rollback needed.</li>
+    <li><strong>Animated feedback:</strong> <code>AnimatedVisibility</code> for split-mode panels and error banners; <code>fadeIn/expandVertically</code> transitions.</li>
+    <li><strong>Edge-to-edge:</strong> <code>enableEdgeToEdge()</code> with Scaffold padding handling insets.</li>
+  </ul>
+</section>
+
+<!-- ==================== 10. SECURITY ==================== -->
+<section id="10-security">
+  <h2>10. Security & Privacy</h2>
+
+  <h3>10.1 Current Posture</h3>
+  <table>
+    <tr><th>Control</th><th>Implementation</th><th>Status</th></tr>
+    <tr><td>Identity</td><td>Firebase Auth email/password; sessions persisted by Auth SDK</td><td><span class="badge green">Active</span></td></tr>
+    <tr><td>Password reset</td><td>Out-of-band reset email flow</td><td><span class="badge green">Active</span></td></tr>
+    <tr><td>Transport</td><td>All Firestore/Auth traffic over TLS</td><td><span class="badge green">Active</span></td></tr>
+    <tr><td>Client-side guards</td><td>Self-friend check, duplicate member checks, duplicate group membership check on QR join</td><td><span class="badge green">Active</span></td></tr>
+    <tr><td>Firestore Security Rules</td><td>Not present in repo — <strong>must be configured in Firebase console</strong></td><td><span class="badge red">Required</span></td></tr>
+    <tr><td>Backup rules</td><td><code>backup_rules.xml</code> + <code>data_extraction_rules.xml</code> declared</td><td><span class="badge green">Active</span></td></tr>
+  </table>
+
+  <div class="callout warn">
+    <strong>Critical recommendation:</strong> Because balance logic runs client-side, Firestore Security Rules are the only server-side enforcement. Recommended baseline:
+    <pre style="margin-top:10px"><code>rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+    match /users/{uid} {
+      allow read: if request.auth != null;          // needed for email lookups
+      allow write: if request.auth.uid == uid;      // self-profile only
+    }
+    match /groups/{gid} {
+      allow read, update: if request.auth != null
+        && request.auth.uid in resource.data.members;
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.createdBy;
+    }
+    match /expenses/{eid} {
+      allow read, write: if request.auth != null;   // tighten to group membership
+    }
+  }
+}</code></pre>
+  </div>
+
+  <h3>10.2 Privacy Considerations</h3>
+  <ul class="clean">
+    <li>Stored PII: name + email (visible to any authenticated user by design, for email-based invites).</li>
+    <li>No analytics, ads, or third-party trackers in v1.0.</li>
+    <li><code>google-services.json</code> is committed (standard for Android Firebase projects; contains project IDs, not secrets).</li>
+  </ul>
+</section>
+
+<!-- ==================== 11. ERROR HANDLING ==================== -->
+<section id="11-error-handling">
+  <h2>11. Error Handling & Resilience</h2>
+
+  <table>
+    <tr><th>Category</th><th>Strategy</th><th>Example</th></tr>
+    <tr><td>Auth errors</td><td>Surface Firebase exception message inline</td><td>"Login failed" fallback if message null</td></tr>
+    <tr><td>Validation errors</td><td>Pre-flight checks before any write; animated inline banners</td><td>"Exact amounts must sum up to the total (₹X)"</td></tr>
+    <tr><td>Lookup failures</td><td>Explicit user-facing copy</td><td>"User not found!", "You are already friends!"</td></tr>
+    <tr><td>Write failures</td><td>Failure listeners reset loading state + show message</td><td>"Failed to create group", "Failed to record payment"</td></tr>
+    <tr><td>Listener errors</td><td>Snapshot error callbacks stop the spinner; last-good data retained</td><td>GroupDetail expense listener</td></tr>
+    <tr><td>QR failures</td><td>Null-safe bitmap handling; scanner failures silently ignored</td><td>"Failed to generate QR code"</td></tr>
+    <tr><td>Offline</td><td>Firestore local cache serves reads; writes queue automatically (SDK behavior)</td><td>Implicit</td></tr>
+  </table>
+
+  <div class="callout">
+    <strong>Float hygiene:</strong> all monetary comparisons use a ±0.01 epsilon (split validation, simplifier, settlement residuals) to neutralize IEEE-754 rounding noise.
+  </div>
+</section>
+
+<!-- ==================== 12. TESTING ==================== -->
+<section id="12-testing">
+  <h2>12. Testing Strategy</h2>
+
+  <h3>12.1 Current State</h3>
+  <table>
+    <tr><th>Suite</th><th>Location</th><th>Runner</th><th>Coverage</th></tr>
+    <tr><td>Unit tests</td><td><code>src/test/</code></td><td>JUnit 4</td><td>Placeholder (<code>ExampleUnitTest</code>)</td></tr>
+    <tr><td>Instrumented</td><td><code>src/androidTest/</code></td><td>AndroidJUnitRunner + Espresso</td><td>Placeholder (<code>ExampleInstrumentedTest</code>)</td></tr>
+    <tr><td>Compose UI tests</td><td><code>androidTestImplementation(ui-test-junit4)</code></td><td>ComposeTestRule</td><td>Dependencies wired, no tests yet</td></tr>
+  </table>
+
+  <h3>12.2 Recommended Test Plan</h3>
+  <h4>Unit — <code>DebtSimplifierTest</code> (highest ROI, pure function)</h4>
+  <pre><code>// 1. Empty / all-zero balances ⇒ no transactions
+// 2. Single debtor, single creditor ⇒ exactly one transaction
+// 3. Worked example (A:-400, B:-100, C:+300, D:+200) ⇒ 3 txns, all zero after
+// 4. Epsilon: balances of ±0.01 are ignored
+// 5. Conservation: sum of transaction amounts == sum of positive balances
+// 6. Idempotence of partitioning: no debtor ever appears as creditor
+// 7. Large random fuzz: assert Σ(txns) settles Σ(balances) within 0.01×n</code></pre>
+
+  <h4>Unit — Balance computation</h4>
+  <pre><code>// Extract the fold from GroupDetailScreen into a testable function, then:
+// - EQUAL expense across N members ⇒ each debited amount/N
+// - EXACT splits honored verbatim
+// - Legacy splitAmong fallback path
+// - Settlement expense nets both parties to zero</code></pre>
+
+  <h4>Instrumented / Compose UI</h4>
+  <ul class="clean">
+    <li>Login: empty-field validation, error rendering, success navigation (with Auth emulator).</li>
+    <li>AddExpense: EXACT sum mismatch shows error; PERCENTAGE ≠ 100% blocked; save writes correct splits (Firestore emulator).</li>
+    <li>GroupDetail: simplification toggle re-renders suggestions; settle-up dialog records payment.</li>
+    <li>Use <strong>Firebase Emulator Suite</strong> (<code>auth</code> + <code>firestore</code>) for hermetic tests.</li>
+  </ul>
+
+  <h3>12.3 Manual QA Checklist (critical paths)</h3>
+  <ul class="clean">
+    <li>Sign-up → profile doc created → lands on Home.</li>
+    <li>Create group with 0 and with multiple invitees; verify member list.</li>
+    <li>Add EQUAL / EXACT / PERCENTAGE expenses; verify balances on second device.</li>
+    <li>Enable simplification; verify suggested transactions update live.</li>
+    <li>Partial settle-up; verify balances shrink by the paid amount.</li>
+    <li>QR: generate on device A → scan on device B → B becomes member.</li>
+    <li>Add friend by email; ledger appears under Friends tab with friend's name.</li>
+    <li>Sign out → relaunch → lands on Login; sign in → lands on Home.</li>
+  </ul>
+</section>
+
+<!-- ==================== 13. BUILD & DEPLOY ==================== -->
+<section id="13-build-deploy">
+  <h2>13. Build & Deployment</h2>
+
+  <h3>13.1 Build Configuration</h3>
+  <table>
+    <tr><th>Item</th><th>Value</th></tr>
+    <tr><td>Application ID</td><td><code>com.example.splitflat</code></td></tr>
+    <tr><td>Version</td><td><code>versionCode 1</code>, <code>versionName "1.0"</code> (About dialog reports 1.0.0)</td></tr>
+    <tr><td>Build types</td><td><code>release</code> only (debug implicit); <code>isMinifyEnabled = false</code></td></tr>
+    <tr><td>Java compat</td><td>VERSION_11 source & target</td></tr>
+    <tr><td>Compose</td><td><code>buildFeatures.compose = true</code> + Kotlin Compose compiler plugin</td></tr>
+    <tr><td>Dependency management</td><td>Gradle version catalog (<code>gradle/libs.versions.toml</code>)</td></tr>
+    <tr><td>Firebase wiring</td><td><code>google-services</code> plugin 4.4.2 + <code>app/google-services.json</code></td></tr>
+  </table>
+
+  <h3>13.2 Commands</h3>
+  <pre><code>./gradlew assembleDebug        # Debug APK
+./gradlew assembleRelease      # Release APK (unsigned unless signing configured)
+./gradlew test                 # JVM unit tests
+./gradlew connectedAndroidTest # Instrumented tests</code></pre>
+
+  <h3>13.3 Release Checklist</h3>
+  <ul class="clean">
+    <li>Configure release signing (<code>signingConfigs</code>) — currently absent.</li>
+    <li>Enable R8/ProGuard (<code>isMinifyEnabled = true</code>) + rules for Firestore/ZXing.</li>
+    <li>Verify Firestore Security Rules deployed (see §10.1).</li>
+    <li>Bump <code>versionCode</code>/<code>versionName</code>; keep About dialog in sync.</li>
+    <li>Run full manual QA checklist (§12.3) on minSdk 24 and targetSdk 36 devices.</li>
+  </ul>
+
+  <h3>13.4 Source Control Workflow</h3>
+  <p>Feature Branch Workflow (Gitflow-like) per project README:</p>
+  <ul class="clean">
+    <li><code>main</code> — production-ready only; no direct commits.</li>
+    <li><code>develop</code> — integration branch for completed features.</li>
+    <li><code>feature/*</code>, <code>bugfix/*</code> from <code>develop</code>; <code>hotfix/*</code> from <code>main</code> (merged back to both).</li>
+    <li>Conventional commit prefixes: <code>feat:</code>, <code>fix:</code>, <code>refactor:</code>; imperative mood.</li>
+  </ul>
+</section>
+
+
+
+<!-- ==================== 14. LIMITATIONS ==================== -->
+<section id="14-limitations">
+  <h2>14. Limitations & Future Roadmap</h2>
+
+  <h3>14.1 Known Limitations (v1.0)</h3>
+  <table>
+    <tr><th>#</th><th>Limitation</th><th>Impact</th><th>Proposed Fix</th></tr>
+    <tr>
+      <td>L-1</td>
+      <td>Firestore <code>whereIn</code> 10-item cap on member hydration</td>
+      <td>Groups with > 10 members show "Unknown" names</td>
+      <td>Chunk queries into batches of 10 and merge results</td>
+    </tr>
+    <tr>
+      <td>L-2</td>
+      <td>No ViewModel/Repository layer</td>
+      <td>Business logic coupled to Composables; poor testability</td>
+      <td>Introduce MVVM with <code>ViewModel</code> + <code>Repository</code> per screen</td>
+    </tr>
+    <tr>
+      <td>L-3</td>
+      <td>Settlements appear in the expense list</td>
+      <td>Mixed UX of real expenses and payment records</td>
+      <td>Add <code>isSettlement</code> flag; filter or visually distinguish in UI</td>
+    </tr>
+    <tr>
+      <td>L-4</td>
+      <td>Unregistered emails silently skipped on group creation</td>
+      <td>Inviter believes invite succeeded</td>
+      <td>Report unresolved emails before creating the group</td>
+    </tr>
+    <tr>
+      <td>L-5</td>
+      <td>No Firestore Security Rules in repo</td>
+      <td>Data integrity depends on client behavior</td>
+      <td>Deploy rules from §10.1; add <code>firestore.rules</code> to VCS</td>
+    </tr>
+    <tr>
+      <td>L-6</td>
+      <td>Single currency (INR), hardcoded ₹</td>
+      <td>Not usable in other locales</td>
+      <td>Currency field on Group + locale-aware formatting</td>
+    </tr>
+    <tr>
+      <td>L-7</td>
+      <td>Expense edit resets timestamp</td>
+      <td>Edited expenses jump to top of list</td>
+      <td>Preserve original <code>timestamp</code> in edit mode</td>
+    </tr>
+    <tr>
+      <td>L-8</td>
+      <td>No member removal / group deletion</td>
+      <td>Groups are permanent once created</td>
+      <td>Leave-group flow + soft-delete with confirmation</td>
+    </tr>
+    <tr>
+      <td>L-9</td>
+      <td>QR payload is a bare group UUID</td>
+      <td>Any QR containing a valid group ID grants membership</td>
+      <td>Signed/invite-token QR payloads with expiry</td>
+    </tr>
+    <tr>
+      <td>L-10</td>
+      <td>Minification disabled, no signing config</td>
+      <td>Larger APK; unsigned release builds</td>
+      <td>Enable R8 + configure <code>signingConfigs</code></td>
+    </tr>
+  </table>
+
+  <h3>14.2 Future Roadmap</h3>
+  <table>
+    <tr><th>Phase</th><th>Feature</th><th>Notes</th></tr>
+    <tr><td>v1.1</td><td>Chunked member hydration (L-1)</td><td>Quick win, high impact</td></tr>
+    <tr><td>v1.1</td><td>Settlement flag + filtered views (L-3)</td><td>Data migration: backfill flag on "Settle Up:" titles</td></tr>
+    <tr><td>v1.2</td><td>MVVM refactor (L-2)</td><td>Unlock unit testing of screens</td></tr>
+    <tr><td>v1.2</td><td>Leave group / delete group</td><td>Requires balance-zero guard for leavers</td></tr>
+    <tr><td>v1.3</td><td>Multi-currency support</td><td>Per-group currency + conversion display</td></tr>
+    <tr><td>v1.3</td><td>Push notifications (FCM)</td><td>New expense / invite / settlement events</td></tr>
+    <tr><td>v2.0</td><td>Recurring expenses</td><td>Rent, subscriptions templates</td></tr>
+    <tr><td>v2.0</td><td>Export (CSV / PDF)</td><td>Group summary reports</td></tr>
+    <tr><td>v2.0</td><td>Google Sign-In</td><td>Reduce signup friction</td></tr>
+  </table>
+</section>
+
+<!-- ==================== 15. APPENDIX ==================== -->
+<section id="15-appendix">
+  <h2>15. Appendix</h2>
+
+  <h3>15.1 Glossary of Firestore Field Names</h3>
+  <table>
+    <tr><th>Field</th><th>Collection</th><th>Type</th><th>Meaning</th></tr>
+    <tr><td><code>uid</code></td><td>users</td><td>String</td><td>Auth user ID (mirrors document ID)</td></tr>
+    <tr><td><code>name</code></td><td>users</td><td>String</td><td>Display name</td></tr>
+    <tr><td><code>email</code></td><td>users</td><td>String</td><td>Login email; lookup key for invites</td></tr>
+    <tr><td><code>members</code></td><td>groups</td><td>Array<String></td><td>Member UIDs; queried with array-contains</td></tr>
+    <tr><td><code>createdBy</code></td><td>groups</td><td>String</td><td>Creator UID</td></tr>
+    <tr><td><code>simplifyDebts</code></td><td>groups</td><td>Boolean</td><td>Smart simplification toggle</td></tr>
+    <tr><td><code>isOneOnOne</code></td><td>groups</td><td>Boolean</td><td>Friend ledger marker</td></tr>
+    <tr><td><code>groupId</code></td><td>expenses</td><td>String</td><td>Parent group reference</td></tr>
+    <tr><td><code>paidBy</code></td><td>expenses</td><td>String</td><td>Payer UID</td></tr>
+    <tr><td><code>splitType</code></td><td>expenses</td><td>String</td><td>"EQUAL" | "EXACT" | "PERCENTAGE"</td></tr>
+    <tr><td><code>splits</code></td><td>expenses</td><td>Map<String, Double></td><td>UID → amount owed (materialized)</td></tr>
+    <tr><td><code>splitAmong</code></td><td>expenses</td><td>Array<String></td><td>Legacy EQUAL-split participants</td></tr>
+  </table>
+
+  <h3>15.2 Traceability Matrix — Feature → Code</h3>
+  <table>
+    <tr><th>Feature</th><th>Primary File(s)</th><th>Key Functions/Composables</th></tr>
+    <tr><td>Email login + reset</td><td><code>ui/auth/LoginScreen.kt</code></td><td><code>LoginScreen</code></td></tr>
+    <tr><td>Registration</td><td><code>ui/auth/SignUpScreen.kt</code></td><td><code>SignUpScreen</code></td></tr>
+    <tr><td>Route graph + auth gate</td><td><code>navigation/AppNavigation.kt</code></td><td><code>AppNavigation</code>, <code>Screen</code></td></tr>
+    <tr><td>Groups/Friends tabs, QR scan, add friend</td><td><code>ui/home/HomeScreen.kt</code></td><td><code>HomeScreen</code>, <code>GroupCard</code></td></tr>
+    <tr><td>Group creation</td><td><code>ui/home/CreateGroupScreen.kt</code></td><td><code>CreateGroupScreen</code></td></tr>
+    <tr><td>Balances, settle-up, invite, analytics</td><td><code>ui/group/GroupDetailScreen.kt</code></td><td><code>GroupDetailScreen</code>, <code>ExpenseCard</code>, <code>DonutChart</code></td></tr>
+    <tr><td>Expense create/edit</td><td><code>ui/group/AddExpenseScreen.kt</code></td><td><code>AddExpenseScreen</code></td></tr>
+    <tr><td>Debt simplification</td><td><code>utils/DebtSimplifier.kt</code></td><td><code>simplifyDebts</code>, <code>Transaction</code></td></tr>
+    <tr><td>QR generation</td><td><code>utils/QrCodeGenerator.kt</code></td><td><code>generateQrCode</code></td></tr>
+    <tr><td>Theming</td><td><code>ui/theme/*</code></td><td><code>SplitFlatTheme</code></td></tr>
+  </table>
+
+  <h3>15.3 References</h3>
+  <ul class="clean">
+    <li><a href="https://firebase.google.com/docs/auth/android/password-auth" target="_blank" rel="noopener">Firebase Auth — Email/Password (Android)</a></li>
+    <li><a href="https://firebase.google.com/docs/firestore" target="_blank" rel="noopener">Cloud Firestore Documentation</a></li>
+    <li><a href="https://firebase.google.com/docs/reference/android/com/google/firebase/firestore/Query#whereIn" target="_blank" rel="noopener">Firestore <code>whereIn</code> limits</a></li>
+    <li><a href="https://developers.google.com/ml-kit/vision/barcode-scanning" target="_blank" rel="noopener">ML Kit Barcode Scanning (Play Services)</a></li>
+    <li><a href="https://github.com/zxing/zxing" target="_blank" rel="noopener">ZXing QR Code Library</a></li>
+    <li><a href="https://developer.android.com/develop/ui/compose/navigation" target="_blank" rel="noopener">Navigation Compose</a></li>
+    <li><a href="https://developer.android.com/jetpack/compose" target="_blank" rel="noopener">Jetpack Compose</a></li>
+  </ul>
+
+  <h3>15.4 Document History</h3>
+  <table>
+    <tr><th>Version</th><th>Date</th><th>Author</th><th>Changes</th></tr>
+    <tr><td>1.0</td><td>2026-08-28</td><td>Anish Thakurta</td><td>Initial TDD covering full v1.0.0 codebase</td></tr>
+  </table>
+</section>
+
+</main>
+</div>
+
+<footer>
+  SplitFlat — Technical Design Document · Version 1.0 · Generated 2026-08-28 · Developer: Anish Thakurta
+</footer>
+
+</body>
+</html>

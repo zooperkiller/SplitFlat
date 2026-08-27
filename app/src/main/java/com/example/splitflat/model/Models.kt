@@ -12,6 +12,7 @@ data class Group(
     val createdBy: String = "",
     val members: List<String> = emptyList(), // Store UIDs of members
     val simplifyDebts: Boolean = false, // If true, group uses the Smart Debt Simplification algorithm
+    val isOneOnOne: Boolean = false, // If true, this is a 1-on-1 direct friend ledger
     val timestamp: Long = 0L
 )
 
