@@ -75,53 +75,7 @@ fun GroupDetailScreen(
     var isSettling by remember { mutableStateOf(false) }
     var settleError by remember { mutableStateOf<String?>(null) }
 
-    fun loadData() {
-        db.collection("groups").document(groupId).get().addOnSuccessListener { snapshot ->
-            val fetchedGroup = snapshot?.toObject(Group::class.java)
-            group = fetchedGroup
-            
-            if (fetchedGroup != null) {
-                db.collection("users").whereIn("uid", fetchedGroup.members).get().addOnSuccessListener { usersSnapshot ->
-                    members = usersSnapshot.documents.mapNotNull { it.toObject(User::class.java) }
-                }
-            }
-        }
 
-        db.collection("expenses")
-            .whereEqualTo("groupId", groupId)
-            .get()
-            .addOnSuccessListener { snapshot ->
-                if (snapshot != null) {
-                    val fetchedExpenses = snapshot.documents.mapNotNull { it.toObject(Expense::class.java) }
-                        .sortedByDescending { it.timestamp }
-                    expenses = fetchedExpenses
-                    
-                    // Calculate balances
-                    val userBalances = mutableMapOf<String, Double>()
-                    fetchedExpenses.forEach { expense ->
-                        userBalances[expense.paidBy] = (userBalances[expense.paidBy] ?: 0.0) + expense.amount
-                        
-                        if (expense.splits.isNotEmpty()) {
-                            expense.splits.forEach { (uid, amountOwed) ->
-                                userBalances[uid] = (userBalances[uid] ?: 0.0) - amountOwed
-                            }
-                        } else if (expense.splitAmong.isNotEmpty()) {
-                            val amountPerPerson = expense.amount / expense.splitAmong.size
-                            expense.splitAmong.forEach { uid ->
-                                userBalances[uid] = (userBalances[uid] ?: 0.0) - amountPerPerson
-                            }
-                        }
-                    }
-                    balances = userBalances
-                    
-                    if (group?.simplifyDebts == true) {
-                        suggestedTransactions = DebtSimplifier.simplifyDebts(userBalances)
-                    } else {
-                        suggestedTransactions = emptyList()
-                    }
-                }
-            }
-    }
 
     LaunchedEffect(groupId) {
         // Fetch group details
@@ -236,7 +190,6 @@ fun GroupDetailScreen(
                 onRefresh = {
                     coroutineScope.launch {
                         isRefreshing = true
-                        loadData()
                         kotlinx.coroutines.delay(500)
                         isRefreshing = false
                     }
@@ -720,19 +673,17 @@ fun DonutChart(categoryTotals: Map<String, Double>) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier.size(150.dp)) {
             Canvas(modifier = Modifier.fillMaxSize()) {
                 var currentAngle = -90f
-                var colorIndex = 0
 
-                categoryTotals.forEach { (_, amount) ->
+                categoryTotals.entries.forEachIndexed { index, (_, amount) ->
                     val sweepAngle = (amount / totalAmount).toFloat() * 360f
                     drawArc(
-                        color = colors[colorIndex % colors.size],
+                        color = colors[index % colors.size],
                         startAngle = currentAngle,
                         sweepAngle = sweepAngle,
                         useCenter = false,
                         style = Stroke(width = 40f, cap = StrokeCap.Butt)
                     )
                     currentAngle += sweepAngle
-                    colorIndex++
                 }
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -748,14 +699,13 @@ fun DonutChart(categoryTotals: Map<String, Double>) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            var colorIndex = 0
-            categoryTotals.forEach { (category, amount) ->
+            categoryTotals.entries.forEachIndexed { index, (category, amount) ->
                 val percentage = (amount / totalAmount) * 100
                 if (percentage > 5) { // Only show significant slices in legend
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Canvas(modifier = Modifier.size(8.dp)) {
-                                drawCircle(color = colors[colorIndex % colors.size])
+                                drawCircle(color = colors[index % colors.size])
                             }
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(category.split(" ").lastOrNull() ?: category, fontSize = 10.sp)
@@ -763,7 +713,6 @@ fun DonutChart(categoryTotals: Map<String, Double>) {
                         Text("${percentage.toInt()}%", fontWeight = FontWeight.Bold, fontSize = 10.sp)
                     }
                 }
-                colorIndex++
             }
         }
     }

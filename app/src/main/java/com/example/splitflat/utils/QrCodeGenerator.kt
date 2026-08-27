@@ -18,11 +18,10 @@ object QrCodeGenerator {
             val height = bitMatrix.height
             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
             
-            for (x in 0 until width) {
-                for (y in 0 until height) {
-                    bitmap.setPixel(x, y, if (bitMatrix.get(x, y)) Color.BLACK else Color.WHITE)
-                }
+            val pixels = IntArray(width * height) { i ->
+                if (bitMatrix[i % width, i / width]) Color.BLACK else Color.WHITE
             }
+            bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
             bitmap
         } catch (e: Exception) {
             e.printStackTrace()

@@ -58,41 +58,7 @@ fun HomeScreen(
     var isAddingFriend by remember { mutableStateOf(false) }
     var addFriendError by remember { mutableStateOf<String?>(null) }
 
-    fun loadData() {
-        db.collection("groups")
-            .whereArrayContains("members", currentUserUid)
-            .get()
-            .addOnSuccessListener { snapshot ->
-                if (snapshot != null) {
-                    val fetchedGroups = snapshot.documents.mapNotNull { it.toObject(Group::class.java) }
-                    groups = fetchedGroups
 
-                    // Gather other UIDs for 1-on-1 display names
-                    val otherUids = fetchedGroups.flatMap { it.members }.distinct().filter { it != currentUserUid }
-                    if (otherUids.isNotEmpty()) {
-                        db.collection("users")
-                            .whereIn("uid", otherUids)
-                            .get()
-                            .addOnSuccessListener { usersSnapshot ->
-                                val newMap = usersSnapshot.documents.mapNotNull { it.toObject(User::class.java) }
-                                    .associate { it.uid to it.name }
-                                userNamesMap = newMap
-                                isLoading = false
-                            }
-                            .addOnFailureListener {
-                                isLoading = false
-                            }
-                    } else {
-                        isLoading = false
-                    }
-                } else {
-                    isLoading = false
-                }
-            }
-            .addOnFailureListener {
-                isLoading = false
-            }
-    }
 
     // Set up real-time listener
     LaunchedEffect(currentUserUid) {
@@ -259,7 +225,6 @@ fun HomeScreen(
                 onRefresh = {
                     coroutineScope.launch {
                         isRefreshing = true
-                        loadData()
                         delay(500)
                         isRefreshing = false
                     }
