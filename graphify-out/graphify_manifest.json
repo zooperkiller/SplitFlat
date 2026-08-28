@@ -1,0 +1,217 @@
+{
+  "nodes": 92,
+  "edges": 134,
+  "communities": {
+    "0": {
+      "label": "GroupDetailScreen.kt",
+      "size": 16,
+      "cohesion": 0.225
+    },
+    "1": {
+      "label": "MainActivity.kt",
+      "size": 13,
+      "cohesion": 0.19230769230769232
+    },
+    "2": {
+      "label": "AppNavigation",
+      "size": 12,
+      "cohesion": 0.30303030303030304
+    },
+    "3": {
+      "label": "SplitFlat Technical Design Document (HTML)",
+      "size": 9,
+      "cohesion": 0.25
+    },
+    "4": {
+      "label": "block_to_md",
+      "size": 8,
+      "cohesion": 0.4642857142857143
+    },
+    "5": {
+      "label": "App Launcher Icon",
+      "size": 7,
+      "cohesion": 0.2857142857142857
+    },
+    "6": {
+      "label": "ExampleInstrumentedTest",
+      "size": 7,
+      "cohesion": 0.2857142857142857
+    },
+    "7": {
+      "label": "Screen",
+      "size": 7,
+      "cohesion": 0.2857142857142857
+    },
+    "8": {
+      "label": "DebtSimplifier",
+      "size": 5,
+      "cohesion": 0.5
+    },
+    "9": {
+      "label": "gradlew",
+      "size": 4,
+      "cohesion": 0.8333333333333334
+    },
+    "10": {
+      "label": "app/build.gradle.kts",
+      "size": 1,
+      "cohesion": 1.0
+    },
+    "11": {
+      "label": "Type.kt",
+      "size": 1,
+      "cohesion": 1.0
+    },
+    "12": {
+      "label": "build.gradle.kts",
+      "size": 1,
+      "cohesion": 1.0
+    },
+    "13": {
+      "label": "settings.gradle.kts",
+      "size": 1,
+      "cohesion": 1.0
+    }
+  },
+  "god_nodes": [
+    {
+      "id": "docs_technicaldesigndocument_tdd",
+      "label": "SplitFlat Technical Design Document (HTML)",
+      "degree": 12
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_navigation_appnavigation_appnavigation",
+      "label": "AppNavigation()",
+      "degree": 11
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_model_models_group",
+      "label": "Group",
+      "degree": 9
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_model_models_expense",
+      "label": "Expense",
+      "degree": 7
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_model_models_user",
+      "label": "User",
+      "degree": 6
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "label": "Screen",
+      "degree": 6
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_groupdetailscreen",
+      "label": "GroupDetailScreen()",
+      "degree": 6
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_home_homescreen_homescreen",
+      "label": "HomeScreen()",
+      "degree": 6
+    },
+    {
+      "id": "docs_convert_block_to_md",
+      "label": "block_to_md()",
+      "degree": 6
+    },
+    {
+      "id": "app_launcher_icon",
+      "label": "App Launcher Icon",
+      "degree": 6
+    }
+  ],
+  "surprising_connections": [
+    {
+      "source": "Navigation Design (TDD §7.2)",
+      "target": "AppNavigation()",
+      "source_files": [
+        "docs/TechnicalDesignDocument.html",
+        "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Navigation Design (TDD §7.2)` unexpectedly reaches hub `AppNavigation()`"
+    },
+    {
+      "source": "SplitFlat README",
+      "target": "MainActivity",
+      "source_files": [
+        "README.md",
+        "app/src/main/java/com/example/splitflat/MainActivity.kt"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories"
+    },
+    {
+      "source": "Firestore Data Design (TDD §6)",
+      "target": "Group",
+      "source_files": [
+        "docs/TechnicalDesignDocument.html",
+        "app/src/main/java/com/example/splitflat/model/Models.kt"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Module Design (TDD §7)",
+      "target": "HomeScreen()",
+      "source_files": [
+        "docs/TechnicalDesignDocument.html",
+        "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Module Design (TDD §7)",
+      "target": "QrCodeGenerator",
+      "source_files": [
+        "docs/TechnicalDesignDocument.html",
+        "app/src/main/java/com/example/splitflat/utils/QrCodeGenerator.kt"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories"
+    }
+  ],
+  "suggested_questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `SplitFlat Technical Design Document (HTML)` connect `SplitFlat Technical Design Document (HTML)` to `DebtSimplifier`, `GroupDetailScreen.kt`, `ExampleInstrumentedTest`, `MainActivity.kt`?",
+      "why": "High betweenness centrality (0.271) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `AppNavigation()` connect `AppNavigation` to `GroupDetailScreen.kt`, `MainActivity.kt`, `SplitFlat Technical Design Document (HTML)`, `Screen`?",
+      "why": "High betweenness centrality (0.165) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Testing Strategy (TDD §12)` connect `ExampleInstrumentedTest` to `SplitFlat Technical Design Document (HTML)`?",
+      "why": "High betweenness centrality (0.093) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 2 inferred relationships involving `SplitFlat Technical Design Document (HTML)` (e.g. with `SplitFlat Technical Design Document (Markdown)` and `SplitFlat README`) actually correct?",
+      "why": "`SplitFlat Technical Design Document (HTML)` has 2 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `Login`, `SignUp`, `Home` to the rest of the system?",
+      "why": "15 weakly-connected nodes found - possible documentation gaps or missing edges."
+    }
+  ],
+  "token_cost": {
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "built_at_commit": "230866254546afed950f15e6746b0abf3e1b0539"
+}

@@ -1,0 +1,3667 @@
+{
+  "nodes": [
+    {
+      "id": "app_build_gradle",
+      "label": "build.gradle.kts",
+      "file_type": "code",
+      "source_file": "app/build.gradle.kts",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_androidtest_java_com_example_splitflat_exampleinstrumentedtest",
+      "label": "ExampleInstrumentedTest.kt",
+      "file_type": "code",
+      "source_file": "app/src/androidTest/java/com/example/splitflat/ExampleInstrumentedTest.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_androidtest_java_com_example_splitflat_exampleinstrumentedtest_exampleinstrumentedtest",
+      "label": "ExampleInstrumentedTest",
+      "file_type": "code",
+      "source_file": "app/src/androidTest/java/com/example/splitflat/ExampleInstrumentedTest.kt",
+      "source_location": "L16",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_androidtest_java_com_example_splitflat_exampleinstrumentedtest_exampleinstrumentedtest_useappcontext",
+      "label": ".useAppContext()",
+      "file_type": "code",
+      "source_file": "app/src/androidTest/java/com/example/splitflat/ExampleInstrumentedTest.kt",
+      "source_location": "L18",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_mainactivity",
+      "label": "MainActivity.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_mainactivity_mainactivity",
+      "label": "MainActivity",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L16",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "componentactivity",
+      "label": "ComponentActivity",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_mainactivity_mainactivity_oncreate",
+      "label": ".onCreate()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L17",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "bundle",
+      "label": "Bundle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_model_models",
+      "label": "Models.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/model/Models.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_model_models_user",
+      "label": "User",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/model/Models.kt",
+      "source_location": "L3",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_model_models_group",
+      "label": "Group",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/model/Models.kt",
+      "source_location": "L9",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_model_models_expense",
+      "label": "Expense",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/model/Models.kt",
+      "source_location": "L19",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "label": "AppNavigation.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "label": "Screen",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L16",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_navigation_appnavigation_login",
+      "label": "Login",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L17",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_navigation_appnavigation_signup",
+      "label": "SignUp",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L18",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_navigation_appnavigation_home",
+      "label": "Home",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L19",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_navigation_appnavigation_creategroup",
+      "label": "CreateGroup",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L20",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_navigation_appnavigation_groupdetail",
+      "label": "GroupDetail",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L21",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_navigation_appnavigation_groupdetail_createroute",
+      "label": ".createRoute()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L22",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_navigation_appnavigation_appnavigation",
+      "label": "AppNavigation()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L26",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen",
+      "label": "LoginScreen.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen_loginscreen",
+      "label": "LoginScreen()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L17",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "label": "SignUpScreen.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen_signupscreen",
+      "label": "SignUpScreen()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L18",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "label": "AddExpenseScreen.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen_addexpensescreen",
+      "label": "AddExpenseScreen()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L27",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "label": "GroupDetailScreen.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_groupdetailscreen",
+      "label": "GroupDetailScreen()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L41",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_expensecard",
+      "label": "ExpenseCard()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L597",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_donutchart",
+      "label": "DonutChart()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L658",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen",
+      "label": "CreateGroupScreen.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen_creategroupscreen",
+      "label": "CreateGroupScreen()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L17",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "label": "HomeScreen.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_home_homescreen_homescreen",
+      "label": "HomeScreen()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L30",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_home_homescreen_groupcard",
+      "label": "GroupCard()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L414",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_theme_color",
+      "label": "Color.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Color.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_theme_theme",
+      "label": "Theme.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_theme_theme_splitflattheme",
+      "label": "SplitFlatTheme()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L40",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_ui_theme_type",
+      "label": "Type.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Type.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_utils_debtsimplifier",
+      "label": "DebtSimplifier.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/DebtSimplifier.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_transaction",
+      "label": "Transaction",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/DebtSimplifier.kt",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_debtsimplifier",
+      "label": "DebtSimplifier",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/DebtSimplifier.kt",
+      "source_location": "L12",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_debtsimplifier_simplifydebts",
+      "label": ".simplifyDebts()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/DebtSimplifier.kt",
+      "source_location": "L18",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator",
+      "label": "QrCodeGenerator.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/QrCodeGenerator.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator_qrcodegenerator",
+      "label": "QrCodeGenerator",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/QrCodeGenerator.kt",
+      "source_location": "L8",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator_qrcodegenerator_generateqrcode",
+      "label": ".generateQrCode()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/QrCodeGenerator.kt",
+      "source_location": "L13",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "bitmap",
+      "label": "Bitmap",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_test_java_com_example_splitflat_exampleunittest",
+      "label": "ExampleUnitTest.kt",
+      "file_type": "code",
+      "source_file": "app/src/test/java/com/example/splitflat/ExampleUnitTest.kt",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_test_java_com_example_splitflat_exampleunittest_exampleunittest",
+      "label": "ExampleUnitTest",
+      "file_type": "code",
+      "source_file": "app/src/test/java/com/example/splitflat/ExampleUnitTest.kt",
+      "source_location": "L12",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "app_src_test_java_com_example_splitflat_exampleunittest_exampleunittest_addition_iscorrect",
+      "label": ".addition_isCorrect()",
+      "file_type": "code",
+      "source_file": "app/src/test/java/com/example/splitflat/ExampleUnitTest.kt",
+      "source_location": "L13",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "build_gradle",
+      "label": "build.gradle.kts",
+      "file_type": "code",
+      "source_file": "build.gradle.kts",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "docs_convert",
+      "label": "_convert.py",
+      "file_type": "code",
+      "source_file": "docs/_convert.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "docs_convert_strip_tags",
+      "label": "strip_tags()",
+      "file_type": "code",
+      "source_file": "docs/_convert.py",
+      "source_location": "L12",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "docs_convert_inline",
+      "label": "inline()",
+      "file_type": "code",
+      "source_file": "docs/_convert.py",
+      "source_location": "L17",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "docs_convert_table_to_md",
+      "label": "table_to_md()",
+      "file_type": "code",
+      "source_file": "docs/_convert.py",
+      "source_location": "L29",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "docs_convert_ul_to_md",
+      "label": "ul_to_md()",
+      "file_type": "code",
+      "source_file": "docs/_convert.py",
+      "source_location": "L44",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "docs_convert_block_to_md",
+      "label": "block_to_md()",
+      "file_type": "code",
+      "source_file": "docs/_convert.py",
+      "source_location": "L52",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "docs_convert_rationale_18",
+      "label": "Convert inline HTML to markdown.",
+      "file_type": "rationale",
+      "source_file": "docs/_convert.py",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "docs_convert_rationale_53",
+      "label": "Convert a chunk of HTML body to markdown lines.",
+      "file_type": "rationale",
+      "source_file": "docs/_convert.py",
+      "source_location": "L53",
+      "_origin": "ast"
+    },
+    {
+      "id": "gradlew",
+      "label": "gradlew",
+      "file_type": "code",
+      "source_file": "gradlew",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast"
+    },
+    {
+      "id": "gradlew__entry",
+      "label": "gradlew script",
+      "file_type": "code",
+      "source_file": "gradlew",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast"
+    },
+    {
+      "id": "gradlew_warn",
+      "label": "warn()",
+      "file_type": "code",
+      "source_file": "gradlew",
+      "source_location": "L94",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast"
+    },
+    {
+      "id": "gradlew_die",
+      "label": "die()",
+      "file_type": "code",
+      "source_file": "gradlew",
+      "source_location": "L98",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast"
+    },
+    {
+      "id": "settings_gradle",
+      "label": "settings.gradle.kts",
+      "file_type": "code",
+      "source_file": "settings.gradle.kts",
+      "source_location": "L1",
+      "_origin": "ast"
+    }
+  ],
+  "edges": [
+    {
+      "source": "app_src_androidtest_java_com_example_splitflat_exampleinstrumentedtest",
+      "target": "instrumentationregistry",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/androidTest/java/com/example/splitflat/ExampleInstrumentedTest.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.test.platform.app.InstrumentationRegistry"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_androidtest_java_com_example_splitflat_exampleinstrumentedtest",
+      "target": "androidjunit4",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/androidTest/java/com/example/splitflat/ExampleInstrumentedTest.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.test.ext.junit.runners.AndroidJUnit4"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_androidtest_java_com_example_splitflat_exampleinstrumentedtest",
+      "target": "test",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/androidTest/java/com/example/splitflat/ExampleInstrumentedTest.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "org.junit.Test"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_androidtest_java_com_example_splitflat_exampleinstrumentedtest",
+      "target": "runwith",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/androidTest/java/com/example/splitflat/ExampleInstrumentedTest.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "org.junit.runner.RunWith"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_androidtest_java_com_example_splitflat_exampleinstrumentedtest",
+      "target": "app_src_androidtest_java_com_example_splitflat_exampleinstrumentedtest_exampleinstrumentedtest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/androidTest/java/com/example/splitflat/ExampleInstrumentedTest.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_androidtest_java_com_example_splitflat_exampleinstrumentedtest_exampleinstrumentedtest",
+      "target": "app_src_androidtest_java_com_example_splitflat_exampleinstrumentedtest_exampleinstrumentedtest_useappcontext",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/androidTest/java/com/example/splitflat/ExampleInstrumentedTest.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "bundle",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "android.os.Bundle"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "componentactivity",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.activity.ComponentActivity"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "setcontent",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.activity.compose.setContent"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "enableedgetoedge",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.activity.enableEdgeToEdge"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "fillmaxsize",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.layout.fillMaxSize"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "padding",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.layout.padding"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "scaffold",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material3.Scaffold"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "surface",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material3.Surface"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "materialtheme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material3.MaterialTheme"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Modifier"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_appnavigation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.navigation.AppNavigation"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "app_src_main_java_com_example_splitflat_ui_theme_theme_splitflattheme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.ui.theme.SplitFlatTheme"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity",
+      "target": "app_src_main_java_com_example_splitflat_mainactivity_mainactivity",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity_mainactivity",
+      "target": "componentactivity",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity_mainactivity",
+      "target": "app_src_main_java_com_example_splitflat_mainactivity_mainactivity_oncreate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity_mainactivity_oncreate",
+      "target": "bundle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_model_models",
+      "target": "app_src_main_java_com_example_splitflat_model_models_user",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/model/Models.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_model_models",
+      "target": "app_src_main_java_com_example_splitflat_model_models_group",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/model/Models.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_model_models",
+      "target": "app_src_main_java_com_example_splitflat_model_models_expense",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/model/Models.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "composable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.runtime.Composable"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "navtype",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.navigation.NavType"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "navhost",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.navigation.compose.NavHost"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "composable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.navigation.compose.composable"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "remembernavcontroller",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.navigation.compose.rememberNavController"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "navargument",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.navigation.navArgument"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen_loginscreen",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.ui.auth.LoginScreen"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen_signupscreen",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.ui.auth.SignUpScreen"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen_addexpensescreen",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.ui.group.AddExpenseScreen"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen_creategroupscreen",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.ui.home.CreateGroupScreen"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_ui_home_homescreen_homescreen",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.ui.home.HomeScreen"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "firebaseauth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.firebase.auth.FirebaseAuth"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_login",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_login",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_signup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_signup",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_home",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_home",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_creategroup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_creategroup",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_groupdetail",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_groupdetail",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_screen",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_groupdetail",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_groupdetail_createroute",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_appnavigation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_groupdetail_createroute",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L78",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen",
+      "target": "roundedcornershape",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.shape.RoundedCornerShape"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen",
+      "target": "keyboardoptions",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.text.KeyboardOptions"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen",
+      "target": "alignment",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Alignment"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Modifier"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen",
+      "target": "fontweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.font.FontWeight"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen",
+      "target": "keyboardtype",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.input.KeyboardType"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen",
+      "target": "passwordvisualtransformation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.input.PasswordVisualTransformation"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen",
+      "target": "dp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.dp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen",
+      "target": "sp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.sp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen",
+      "target": "firebaseauth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.firebase.auth.FirebaseAuth"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen",
+      "target": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen_loginscreen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/LoginScreen.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "target": "roundedcornershape",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.shape.RoundedCornerShape"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "target": "keyboardoptions",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.text.KeyboardOptions"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "target": "alignment",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Alignment"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Modifier"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "target": "fontweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.font.FontWeight"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "target": "keyboardtype",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.input.KeyboardType"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "target": "passwordvisualtransformation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.input.PasswordVisualTransformation"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "target": "dp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.dp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "target": "sp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.sp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "target": "firebaseauth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.firebase.auth.FirebaseAuth"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "target": "firebasefirestore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.firebase.firestore.FirebaseFirestore"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen",
+      "target": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen_signupscreen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/auth/SignUpScreen.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "horizontalscroll",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.horizontalScroll"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "rememberscrollstate",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.rememberScrollState"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "roundedcornershape",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.shape.RoundedCornerShape"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "keyboardoptions",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.text.KeyboardOptions"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "verticalscroll",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.verticalScroll"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "icons",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material.icons.Icons"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "arrowback",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material.icons.automirrored.filled.ArrowBack"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "alignment",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Alignment"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Modifier"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "fontweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.font.FontWeight"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "keyboardtype",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.input.KeyboardType"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "dp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.dp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "sp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.sp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_expense",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.model.Expense"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_group",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.model.Group"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_user",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L22",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.model.User"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "firebaseauth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L23",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.firebase.auth.FirebaseAuth"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "firebasefirestore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.firebase.firestore.FirebaseFirestore"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "uuid",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L25",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "java.util.UUID"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen",
+      "target": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen_addexpensescreen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "canvas",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.Canvas"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "image",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.Image"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "clickable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.clickable"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "lazycolumn",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.lazy.LazyColumn"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "items",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.lazy.items"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "roundedcornershape",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.shape.RoundedCornerShape"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "icons",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material.icons.Icons"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "arrowback",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material.icons.filled.ArrowBack"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "morevert",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material.icons.filled.MoreVert"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "personadd",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material.icons.filled.PersonAdd"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "qrcode",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material.icons.filled.QrCode"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "pulltorefreshbox",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material3.pulltorefresh.PullToRefreshBox"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "alignment",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Alignment"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Modifier"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "color",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.graphics.Color"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "strokecap",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L22",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.graphics.StrokeCap"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "asimagebitmap",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L23",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.graphics.asImageBitmap"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "stroke",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.graphics.drawscope.Stroke"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "fontweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L25",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.font.FontWeight"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "dp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.dp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "sp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L27",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.sp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_expense",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L28",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.model.Expense"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_group",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L29",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.model.Group"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_user",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L30",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.model.User"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_debtsimplifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L31",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.utils.DebtSimplifier"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator_qrcodegenerator",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L32",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.utils.QrCodeGenerator"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_transaction",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L33",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.utils.Transaction"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "firebaseauth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L34",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.firebase.auth.FirebaseAuth"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "firebasefirestore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L35",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.firebase.firestore.FirebaseFirestore"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "launch",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L36",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "kotlinx.coroutines.launch"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "locale",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L37",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "java.util.Locale"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "uuid",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L38",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "java.util.UUID"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "roundtoint",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L39",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "kotlin.math.roundToInt"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_groupdetailscreen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_expensecard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L597",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_expensecard",
+      "target": "app_src_main_java_com_example_splitflat_model_models_expense",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L597",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_expensecard",
+      "target": "app_src_main_java_com_example_splitflat_model_models_user",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L597",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen",
+      "target": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_donutchart",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L658",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_groupdetailscreen",
+      "target": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_donutchart",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L226",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_groupdetailscreen",
+      "target": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_expensecard",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L304",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_groupdetailscreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_expense",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/GroupDetailScreen.kt",
+      "source_location": "L448",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen",
+      "target": "roundedcornershape",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.shape.RoundedCornerShape"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen",
+      "target": "alignment",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Alignment"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Modifier"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen",
+      "target": "fontweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.font.FontWeight"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen",
+      "target": "dp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.dp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen",
+      "target": "sp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.sp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_group",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.model.Group"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen",
+      "target": "firebaseauth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.firebase.auth.FirebaseAuth"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen",
+      "target": "firebasefirestore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.firebase.firestore.FirebaseFirestore"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen",
+      "target": "uuid",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "java.util.UUID"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen",
+      "target": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen_creategroupscreen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "clickable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.clickable"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "lazycolumn",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.lazy.LazyColumn"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "items",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.lazy.items"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "roundedcornershape",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.shape.RoundedCornerShape"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "icons",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material.icons.Icons"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "morevert",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material.icons.filled.MoreVert"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "qrcodescanner",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material.icons.filled.QrCodeScanner"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "pulltorefreshbox",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material3.pulltorefresh.PullToRefreshBox"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "alignment",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Alignment"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.Modifier"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "localcontext",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.platform.LocalContext"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "fontweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.font.FontWeight"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "dp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.dp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "sp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.sp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_group",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.model.Group"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_user",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.example.splitflat.model.User"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "gmsbarcodescanning",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L22",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.mlkit.vision.codescanner.GmsBarcodeScanning"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "barcode",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L23",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.mlkit.vision.barcode.common.Barcode"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "firebaseauth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.firebase.auth.FirebaseAuth"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "firebasefirestore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L25",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.firebase.firestore.FirebaseFirestore"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "delay",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "kotlinx.coroutines.delay"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "launch",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L27",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "kotlinx.coroutines.launch"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "uuid",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L28",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "java.util.UUID"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "app_src_main_java_com_example_splitflat_ui_home_homescreen_homescreen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen",
+      "target": "app_src_main_java_com_example_splitflat_ui_home_homescreen_groupcard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L414",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen_groupcard",
+      "target": "app_src_main_java_com_example_splitflat_model_models_group",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L414",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen_homescreen",
+      "target": "app_src_main_java_com_example_splitflat_ui_home_homescreen_groupcard",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L268",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_homescreen_homescreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_group",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/HomeScreen.kt",
+      "source_location": "L364",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_color",
+      "target": "color",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Color.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.graphics.Color"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_theme",
+      "target": "activity",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "android.app.Activity"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_theme",
+      "target": "build",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "android.os.Build"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_theme",
+      "target": "issystemindarktheme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.isSystemInDarkTheme"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_theme",
+      "target": "materialtheme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material3.MaterialTheme"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_theme",
+      "target": "darkcolorscheme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material3.darkColorScheme"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_theme",
+      "target": "dynamicdarkcolorscheme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material3.dynamicDarkColorScheme"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_theme",
+      "target": "dynamiclightcolorscheme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material3.dynamicLightColorScheme"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_theme",
+      "target": "lightcolorscheme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material3.lightColorScheme"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_theme",
+      "target": "composable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.runtime.Composable"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_theme",
+      "target": "localcontext",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.platform.LocalContext"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_theme",
+      "target": "app_src_main_java_com_example_splitflat_ui_theme_theme_splitflattheme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Theme.kt",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_type",
+      "target": "typography",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Type.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.material3.Typography"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_type",
+      "target": "textstyle",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Type.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.TextStyle"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_type",
+      "target": "fontfamily",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Type.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.font.FontFamily"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_type",
+      "target": "fontweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Type.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.text.font.FontWeight"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_theme_type",
+      "target": "sp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/ui/theme/Type.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.ui.unit.sp"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_debtsimplifier",
+      "target": "absolutevalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/DebtSimplifier.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "kotlin.math.absoluteValue"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_debtsimplifier",
+      "target": "min",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/DebtSimplifier.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "kotlin.math.min"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_debtsimplifier",
+      "target": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_transaction",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/DebtSimplifier.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_debtsimplifier",
+      "target": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_debtsimplifier",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/DebtSimplifier.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_debtsimplifier",
+      "target": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_debtsimplifier_simplifydebts",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/DebtSimplifier.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_debtsimplifier_simplifydebts",
+      "target": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_transaction",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/DebtSimplifier.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_debtsimplifier_simplifydebts",
+      "target": "app_src_main_java_com_example_splitflat_utils_debtsimplifier_transaction",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/DebtSimplifier.kt",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator",
+      "target": "bitmap",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/QrCodeGenerator.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "android.graphics.Bitmap"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator",
+      "target": "color",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/QrCodeGenerator.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "android.graphics.Color"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator",
+      "target": "barcodeformat",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/QrCodeGenerator.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.zxing.BarcodeFormat"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator",
+      "target": "qrcodewriter",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/QrCodeGenerator.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "com.google.zxing.qrcode.QRCodeWriter"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator",
+      "target": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator_qrcodegenerator",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/QrCodeGenerator.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator_qrcodegenerator",
+      "target": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator_qrcodegenerator_generateqrcode",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/QrCodeGenerator.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_utils_qrcodegenerator_qrcodegenerator_generateqrcode",
+      "target": "bitmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/example/splitflat/utils/QrCodeGenerator.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "return_type",
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_test_java_com_example_splitflat_exampleunittest",
+      "target": "test",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/test/java/com/example/splitflat/ExampleUnitTest.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "org.junit.Test"
+      },
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_test_java_com_example_splitflat_exampleunittest",
+      "target": "app_src_test_java_com_example_splitflat_exampleunittest_exampleunittest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/test/java/com/example/splitflat/ExampleUnitTest.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_test_java_com_example_splitflat_exampleunittest_exampleunittest",
+      "target": "app_src_test_java_com_example_splitflat_exampleunittest_exampleunittest_addition_iscorrect",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/test/java/com/example/splitflat/ExampleUnitTest.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert",
+      "target": "io",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert",
+      "target": "re",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert",
+      "target": "html",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert",
+      "target": "docs_convert_strip_tags",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert",
+      "target": "docs_convert_inline",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert",
+      "target": "docs_convert_table_to_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert",
+      "target": "docs_convert_ul_to_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert",
+      "target": "docs_convert_block_to_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert_table_to_md",
+      "target": "docs_convert_inline",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert_ul_to_md",
+      "target": "docs_convert_inline",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert_block_to_md",
+      "target": "docs_convert_strip_tags",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert_block_to_md",
+      "target": "docs_convert_inline",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert_block_to_md",
+      "target": "docs_convert_table_to_md",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L83",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert_block_to_md",
+      "target": "docs_convert_ul_to_md",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L86",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert_rationale_18",
+      "target": "docs_convert_inline",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "docs_convert_rationale_53",
+      "target": "docs_convert_block_to_md",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/_convert.py",
+      "source_location": "L53",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gradlew",
+      "target": "gradlew__entry",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gradlew",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gradlew",
+      "target": "gradlew_warn",
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "gradlew",
+      "source_location": "L94",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gradlew",
+      "target": "gradlew_die",
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "gradlew",
+      "source_location": "L98",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gradlew__entry",
+      "target": "gradlew_die",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "gradlew",
+      "source_location": "L129",
+      "weight": 1.0,
+      "context": "call",
+      "_origin": "ast"
+    },
+    {
+      "source": "gradlew__entry",
+      "target": "gradlew_warn",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "gradlew",
+      "source_location": "L152",
+      "weight": 1.0,
+      "context": "call",
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity_mainactivity_oncreate",
+      "target": "app_src_main_java_com_example_splitflat_ui_theme_theme_splitflattheme",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_mainactivity_mainactivity_oncreate",
+      "target": "app_src_main_java_com_example_splitflat_navigation_appnavigation_appnavigation",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/example/splitflat/MainActivity.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_ui_auth_loginscreen_loginscreen",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_ui_auth_signupscreen_signupscreen",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L53",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_ui_home_homescreen_homescreen",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen_creategroupscreen",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L84",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen_addexpensescreen",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L115",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_group_addexpensescreen_addexpensescreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_expense",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/example/splitflat/ui/group/AddExpenseScreen.kt",
+      "source_location": "L285",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_ui_home_creategroupscreen_creategroupscreen",
+      "target": "app_src_main_java_com_example_splitflat_model_models_group",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/example/splitflat/ui/home/CreateGroupScreen.kt",
+      "source_location": "L145",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "app_src_main_java_com_example_splitflat_navigation_appnavigation_appnavigation",
+      "target": "app_src_main_java_com_example_splitflat_ui_group_groupdetailscreen_groupdetailscreen",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/example/splitflat/navigation/AppNavigation.kt",
+      "source_location": "L97",
+      "weight": 1.0,
+      "_origin": "ast"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "failed_sources": []
+}

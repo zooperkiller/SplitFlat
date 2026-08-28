@@ -1,0 +1,15 @@
+D:\SplitFlat\.clinerules\documentation.md
+D:\SplitFlat\.github\workflows\auto-merge.yml
+D:\SplitFlat\README.md
+D:\SplitFlat\docs\TechnicalDesignDocument.html
+D:\SplitFlat\docs\TechnicalDesignDocument.md
+D:\SplitFlat\app\src\main\res\mipmap-hdpi\ic_launcher.webp
+D:\SplitFlat\app\src\main\res\mipmap-hdpi\ic_launcher_round.webp
+D:\SplitFlat\app\src\main\res\mipmap-mdpi\ic_launcher.webp
+D:\SplitFlat\app\src\main\res\mipmap-mdpi\ic_launcher_round.webp
+D:\SplitFlat\app\src\main\res\mipmap-xhdpi\ic_launcher.webp
+D:\SplitFlat\app\src\main\res\mipmap-xhdpi\ic_launcher_round.webp
+D:\SplitFlat\app\src\main\res\mipmap-xxhdpi\ic_launcher.webp
+D:\SplitFlat\app\src\main\res\mipmap-xxhdpi\ic_launcher_round.webp
+D:\SplitFlat\app\src\main\res\mipmap-xxxhdpi\ic_launcher.webp
+D:\SplitFlat\app\src\main\res\mipmap-xxxhdpi\ic_launcher_round.webp
